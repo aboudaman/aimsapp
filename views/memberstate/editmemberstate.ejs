@@ -1,0 +1,46 @@
+<%- include("../submenu/admin_sadc") -%>
+<div class="row" style="margin-top:55px">
+	<div class="col">
+		<h4> Edit A SADC Member State Profile </h4>
+		<form class="uk-form-stacked"  action="<%= `/memberstate/${memberstate._id}/update?_method=PUT` %>" method="POST">
+	
+			<div class="uk-margin" style="margin-top: 25px;">
+			<label class="uk-form-label" for="Country Name">Country Name</label>
+			<div class="uk-form-controls">
+				<input class="uk-input" name="countryName" value="<%= memberstate.countryName %>" type="text">
+			</div>
+			</div>
+			<div class="uk-margin">
+			<label class="uk-form-label" for="Population">Population</label>
+			<div class="uk-form-controls">
+				<input class="uk-input" name="population" value="<%= memberstate.population %>"type="text">
+			</div>
+			</div>
+			 <div class="uk-margin">
+			<label class="uk-form-label" for="area">Area</label>
+			<div class="uk-form-controls">
+				<input class="uk-input" name="area" type="text" value="<%= memberstate.area %>" placeholder="Enter Land Area...">
+			</div>
+			</div>
+	 <div class="uk-margin">
+			<label class="uk-form-label" for="currency">Currency</label>
+			<div class="uk-form-controls">
+				<input class="uk-input" name="currency" type="text" value="<%= memberstate.currency %>" placeholder="Enter Currency...">
+			</div>
+			</div>
+	</div>
+</div>
+<div>
+
+
+	    <!--
+<div class="uk-margin">
+		<label class="uk-form-label" for="Live Animal">Livestock</label>
+		<div class="uk-form-controls">
+		    <input class="uk-input" name="livestock" value="" type="text">
+		</div>
+	    </div>
+	    -->
+	    <input type="submit">
+	</form>
+</div>

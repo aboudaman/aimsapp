@@ -1,0 +1,474 @@
+<style>
+.uk-card.uk-card-body {
+    width: 350px;
+    height: 400px;
+    margin-top: 296px;
+}
+
+</style>
+<div class="container">
+	<div class="row">
+		<div class="col"><h2> Production Data for <%= memberState.countryName %> </h2></div>
+		<div class="col">
+			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+				<li class="nav-item">
+				<a class="nav-link active" id="pills-bchart-tab" 
+				data-toggle="pill" href="#pills-bchart" role="tab" aria-controls="pills-bchart" aria-selected="true">Bar Chart</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="pills-schart-tab" 
+				data-toggle="pill" href="#pills-schart" role="tab" aria-controls="pills-schart" aria-selected="false">Scatter Chart</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="pills-lgraph-tab" 
+				data-toggle="pill" href="#pills-lgraph" role="tab" aria-controls="pills-lgraph" aria-selected="false">Line Graph</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="pills-dtable-tab" 
+					data-toggle="pill" href="#pills-dtable" role="tab" aria-controls="pills-dtable" aria-selected="false">Data Table</a>
+				</li>
+		  </ul>
+		</div>
+	</div>
+</div>
+<!-- Bootstrap Layout -->
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<form action="">
+				<div class="form-group">
+					<label for="commodities">Select Commodity</label>
+					<select multiple class="form-control" name="livestock">
+						<% liveStockProductionData.forEach(liveStock => { %>
+							<option value= "<%= `${liveStock.name}` %>" > <%= liveStock.name %></option>
+						<% }) %>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="commodities">Select Year</label>
+					<select multiple class="form-control" name="year">
+						<option value="2010">2010</option>
+						<option value="2011">2011</option>
+						<option value="2012">2012</option>
+						<option value="2013">2013</option>
+						<option value="2014">2014</option>
+						<option value="2015">2015</option>
+						<option value="2016">2016</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+
+			</form>
+		</div>
+		<div class="col-8">
+
+			<div class="tab-content" id="pills-tabContent">
+				<div class="tab-pane fade show active" id="pills-bchart" 
+					role="tabpanel" aria-labelledby="pills-bchart-tab">
+						<div id="chartArea"></div>
+				</div>
+				<div class="tab-pane fade" id="pills-schart" 
+					role="tabpanel" aria-labelledby="pills-schart-tab">
+						<div id="scatterArea"></div>
+				</div>
+				<div class="tab-pane fade" id="pills-lgraph" role="tabpanel" aria-labelledby="pills-lgraph-tab">Three TO GO</div>
+				<div class="tab-pane fade" id="pills-dtable" role="tabpanel" aria-labelledby="pills-dtable-tab">Four TO GO</div>
+			</div>
+		</div>
+	</div>
+
+
+<!-- END Bootstrap Layout -->
+
+	<!-- <div>
+
+		Test Data, To comment
+		<ul>
+			<% liveStockProductionData.forEach(liveStock => { %>
+				<li> <%= liveStock.name %> : <%= liveStock.year %> : <%= liveStock.quantity %></li>
+			<% }) %>
+		</ul>
+	</div> -->
+
+
+</div>
+<script>
+
+/*
+	###### Configure D3 variables ######
+*/
+let margin = {left: 100, right: 10, top: 10, bottom: 100}
+let width = 600 - margin.left-margin.right
+let height = 600 - margin.top-margin.bottom
+let flag = true
+let x
+let y
+let g
+let xAxisGroup
+let yAxisGroup
+let xLabel
+let yLabel
+// ## Set up transition ##
+let t = d3.transition().duration(4100)
+
+const drawScatter = (location) => {
+	let chart1 = d3.select(location)
+		.append("svg")
+		.attr("width", width+margin.left+margin.right)
+		.attr("height", height+margin.top+margin.bottom)
+		drawBar(chart1)
+
+}
+const drawBars = (location) => {
+	let chart2 = d3.select(location)
+		.append("svg")
+		.attr("width", width+margin.left+margin.right)
+		.attr("height", height+margin.top+margin.bottom)
+		drawBar(chart2)
+
+}
+// Call functions to draw charts
+// drawBar("#chartArea")
+// drawBar("#scatterArea")
+
+const drawBar = (chart) => {
+
+	// let svg = d3.select(location)
+	// 	.append("svg")
+	// 	.attr("width", width+margin.left+margin.right)
+	// 	.attr("height", height+margin.top+margin.bottom)
+
+	//#### Group the canvas ####
+	g = chart.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+	//## Define Group for X Axis ##
+	xAxisGroup = g.append("g")
+				.attr("class", "bottom axis")
+				.attr("transform", "translate(0," + height + ")")
+				
+	//## Define Group for Y Axis ##
+	yAxisGroup = g.append("g")
+				.attr("class","left axis")
+		
+	//#### Set up the scale on the X Axis ####
+	x = d3.scaleBand()
+		.range([0, width])
+		.paddingInner(0.95)
+		.paddingOuter(1.0)
+
+	//#### Set up the scale on the Y Axis ####
+	y =  d3.scaleLinear()
+		.range([height, 0])
+
+	// ## Add Label on X Axis ##
+	xLabel = g.append("text")
+		.attr("class", "x-axis label")
+		.attr("x", width / 2)
+		.attr("y", height + 55)
+		.attr("font-size", "20px")
+		.attr("text-anchor", "middle")
+		.style("fill", "blue")
+		.text("")
+
+	// ## Add Label on Y Axis ##
+	yLabel = g.append("text")
+					.attr("class", "y-axis label")
+					.attr("x", -(height / 2))
+					.attr("y", -60)
+					.attr("font-size", "20px")
+					.attr("text-anchor", "middle")
+					.style("fill", "blue")
+					.attr("transform", "rotate(-90)")
+					.text("")
+
+ }
+
+drawBars("#chartArea")
+drawScatter("#scatterArea")
+
+
+
+
+	/* 
+		#### Define The Update Function ####
+		data = source data
+		type = type of graph to be drawn (not Added)
+		cirle = indicate if the plots is circle
+
+
+
+	*/
+	const update = (data, circle) => {
+
+			/* ###### BEGIN Configuration for D3 Chart ######
+
+			*/
+
+			//Toggle Flag each time update is called
+			flag = !flag
+
+			let yValue = flag? "quantity":"year"
+
+			//## Set up the domain(input) scale for X ##
+			x.domain(data.map(d => {
+				return d.name
+			}))
+
+			//## Set up domain (input) scale for Y ##
+			y.domain([0, d3.max(data, d => {
+				return d[yValue]
+			})])
+
+			//## Set up the X Axis Generator ##
+			let xAxis = d3.axisBottom(x)
+
+			//## Add group to the X Axis and add Transition ##
+			xAxisGroup.transition(t)
+				.call(xAxis)
+				.selectAll("text")
+					.attr("text-anchor", "end")
+					.attr("transform", "rotate(-40)")
+
+			//## Set up the Y Axis Generator to be located on left side of the canvas ##
+			let yAxis = d3.axisLeft(y)
+					.ticks(3)
+					.tickFormat(d => {
+						return d + "m"
+					})
+
+			//## Add Group to the Y axis ##
+			yAxisGroup.transition(t)
+				.call(yAxis)
+
+			//## Begin Drawing Bar Chart ##
+
+			//JOIN the data
+			if (circle === "circle") {
+				// Draw a circle type graph
+				let circles = g.selectAll("circle")
+				.data(data, (d) => {
+					return (d.name)
+				})
+				//Exit - remove old data not present in new one
+			circles.exit()
+						//.attr("fill", "red")
+						.transition(t)
+							.attr("y", y(0))
+						.remove()
+
+			//Enter new elements present in new data onto the screen
+			circles.enter()
+				.append("circle")
+				.attr("cx", d => {
+					return x(d.name)
+				})
+				.attr("fill", "green")
+				.attr("cy", y(0))
+				.attr("r", 5)
+				// Use merge() to eliminate Update section
+				// Everything after merge is applied to enter() and update()
+				// Everything before merge is applied only to enter() method
+				.merge(circles)
+				.transition(t)
+					.attr("cy", d => {
+						return y(d[yValue])
+					})
+			} else {
+					//Draw normal graph
+				let rectangles = g.selectAll("rect")
+					.data(data, (d) => {
+						return (d.name)
+					})
+				
+				//Exit - remove old data not present in new one
+				rectangles.exit()
+							//.attr("fill", "red")
+							.transition(t)
+								.attr("y", y(0))
+								.attr("height", 0)
+							.remove()
+
+				//Enter new elements present in new data onto the screen
+				rectangles.enter()
+					.append("rect")
+					.attr("x", d => {
+						return x(d.name)
+					})
+					.attr("width", 20)
+					.attr("fill", "blue")
+					.attr("y", y(0))
+					.attr("height", 0)
+					// Use merge() to eliminate Update section
+					// Everything after merge is applied to enter() and update()
+					// Everything before merge is applied only to enter() method
+					.merge(rectangles)
+					.transition(t)
+						.attr("y", d => {
+							return y(d[yValue])
+						})
+						.attr("height", d => {
+						console.log("q:", d[yValue])
+						return height - y(d[yValue])
+						})
+
+			}
+				let label = flag?"quantity":"year"
+				yLabel.text(label)
+				xLabel.text("Animal Production Data")
+	}
+
+	// Create GapMinder Anim
+	const gap = (data) => {
+		//Toggle Flag
+		flat = !flag
+
+		//Set up Y coordinate label 
+		let yValue = "Quantity"
+
+		//Set up X Coordinate label
+		let xValue = "Year"
+
+		//#### Set up the scale on the X Axis ####
+
+		let xScale = d3.scaleLog()
+			.domain([300, 150000])
+			.range([0, width])
+			.paddingInner(0.95)
+			.paddingOuter(1.0)
+		
+
+
+		//#### Set up the scale on the Y Axis ####
+		let yScale =  d3.scaleLinear()
+			.domain([0, 90]) 
+			.range([height, 0])
+
+
+	}
+// Checks if button is pressed
+	document.body.addEventListener("submit", async function(event) {
+		
+		//# Clear the Canvas #
+		//d3.selectAll("g > *").remove()
+	
+		event.preventDefault()
+
+		const form = event.target
+
+		//let checkFlag = document.querySelector("input[name=indicator]:checked").value
+
+		//CheckFlag = A, Quantity...checkFlag = B, Year
+
+		
+		const result = await fetch("/production/<%=memberState._id%>/analytics", {
+
+			method: "POST",
+			body: new URLSearchParams([...(new FormData(form))])
+		})
+	        .then((response) => response.json())
+			.then(result => {
+		//console.log(result.data)
+
+				result.data.forEach(d => {
+					d.quantity = +d.quantity
+				})
+
+			//## CALL UPDATE FUNCTION ##
+			// update(result.data, "bar")
+			update(result.data, "circle")
+			
+
+		})
+		.then(() => { 
+
+			//############################################### OBSOLETE CODE ###########################################
+			//#### Set up the linear scale for the chart - ####
+
+			// let scale = d3.scaleLinear()
+			// 	.domain([d3.min(yCoor), d3.max(yCoor)])
+			// 	.range([50, 100])
+		//#### END setting up of scale for the chart ####
+
+		/*
+				//## Set up log scale for the chart ##
+				let logScale =  d3.scaleLog()
+						.domain([d3.min(), d3.max()])
+						range([0, 100])
+		
+				//## END set up of log scale ##
+		
+		*/
+
+		/*
+
+		//## Set up time scale ##
+		let timeScale = d3.scaleTime()
+				.domain([new Data(2000,0,1), new Date(2001,0,1)])
+				.range([0, 400])
+		*/
+
+
+		/*
+		//## Using ordinal for color schemes with D3 schematic module ##
+		let colorCode = d3.scaleOrdinal()
+				.domain("one", "two")
+				.range(d3.schemaCategory10)
+		*/
+
+		/*
+		//## Using band scales for bar charts ##
+		let bandScale = d3.scaleBand()
+				.domain("audi", "toyota", "bmw", "vw")
+				.range([0,400])
+				.paddingInner(0.2)
+				.paddingOuter(0.2)
+
+		*/
+//#######################################################################################
+
+		/*
+				d3.json("/reports/myFile.txt")
+					.then(data => {
+		
+						let rectangles = svg.selectAll("rect")
+							.data(data)
+		
+						rectangles.enter()
+							.append("rect")
+							.attr("x", (d, i) => {
+								return (i*50)
+							})
+							.attr("y", 20)
+							.attr("width", 40)
+							.attr("height", d => {
+								return scale(d.quantity)
+							})
+							.attr("fill", (d) => {
+								if (d.quantity < 29000) {
+									return "red"
+								} else {
+									return "blue"
+		
+								}
+		
+							})
+						console.log(data)
+					})
+		
+		*/
+
+//########################################################################################
+		})
+		.catch(error => console.log(error)) 
+	})
+	
+</script>
+
+
+
+
+
+
+
+

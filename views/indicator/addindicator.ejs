@@ -1,0 +1,207 @@
+<%- include("../submenu/admin_sadc") -%>
+
+<style>
+    .table-hover tbody tr:hover td {
+    background: aqua;
+}
+a:hover {
+    text-decoration: none;
+}
+
+
+</style>
+
+<div class="container">
+  
+    <div class="row" style="margin-top: 25px;"> 
+        <div class="col">
+            <h4>Add Indicators To The AIMS Database</h4>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 50px;">
+        <div class="col">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="crops-tab" data-toggle="pill" href="#crops" role="tab" aria-controls="crops" aria-selected="true">Crops Indicators</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="livestock-tab" data-toggle="pill" href="#livestock" role="tab" aria-controls="livestock" aria-selected="false">Livestock Indicators</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="animalprod-tab" data-toggle="pill" href="#animalprod" role="tab" aria-controls="animalprod" aria-selected="false">Animal Production Indicators</a>
+                </li>
+ 
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content" id="myTabContent">
+      <!-- ## Start TAB Content for Crops Indicator -->
+        <div class="tab-pane fade show active" id="crops" role="tabpanel" aria-labelledby="crops-tab">
+            <div class="row" style="margin-top: 55px;">
+                <div class="col-md-6">
+                    <form action="/indicatorcrops/register" method="post">
+                        <div class="form-group">
+                          <label for="crop indicator" style="margin-top: 10px;">Crops Indicator</label>
+                          <input type="text" class="form-control" name="cropIndicator"  placeholder="Enter Core Crops Indicator" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                      </form>
+                </div>
+            </div>
+                <!-- Using Custom Filter/Search -->
+            <div class="row" style="margin-top: 55px;">
+              <div class="col-md-8">
+                  <div class="card-header" style="margin-bottom: 25px;">
+                      <h6> Existing Crop Indicators In AIMS Database </h6>
+                  </div>
+                  <table class="table table-bordered" id="cropIndicator">
+                      <thead style="background-color: rgba(0,0,0,.03);">
+                          <tr>
+                            <th class="">Existing Crop Indicators</th>
+                          </tr>
+                        </thead>
+                      <tbody>
+                          <% cropIndicators.forEach( indicator => { %>
+                        <tr>
+                          <td> <%= indicator.indicator %> 
+                              <span class="float-right">
+                                  <button type="button" class="btn btn-light"> <a href="<%= `/indicatorcrops/${indicator._id}/edit` %> ">EDIT</a></button> |
+                                  <button type="button" class="btn btn-light"> 
+                                  <a class="delete" data-title="Delete Crop Item?" href="<%= `/indicatorcrops/${indicator._id}/delete?_method=DELETE` %>">DELETE</a> 
+                                  </button>
+                              </span>
+                          </td>
+
+                        </tr>
+                        <%  }) %>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <!-- END Custom Filter/Search -->
+        </div>
+        <!-- ## END TAB Content for Crops Indicator -->
+
+        <div class="tab-pane fade" id="livestock" role="tabpanel" aria-labelledby="livestock-tab">
+            
+            
+            <div class="row" style="margin-top: 55px;">
+                <div class="col-md-6">
+                    <form action="/indicatorlivestock/register" method="post">
+                        <div class="form-group">
+                          <label for="Livestock Indicator" style="margin-top: 10px;"> Livestock Indicator</label>
+                          <input type="text" class="form-control" name="livestockIndicator" placeholder="Enter Livestock Indicator" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Using Custom Filter/Search -->
+            <div class="row" style="margin-top: 55px;">
+              <div class="col-md-8">
+                  <div class="card-header" style="margin-bottom: 25px;">
+                      <h6> Existing Livestock Indicators In AIMS Database </h6>
+                  </div>
+                  <table class="table table-bordered" id="livestockIndicator">
+                      <thead style="background-color: rgba(0,0,0,.03);">
+                          <tr>
+                            <th class="">Existing Livestock Indicators</th>
+                          </tr>
+                        </thead>
+                      <tbody>
+                          <% livestockIndicators.forEach( indicator => { %>
+                        <tr>
+                          <td> <%= indicator.indicator %> 
+                              <span class="float-right">
+                                  <button type="button" class="btn btn-light"> <a href="<%= `/indicatorlivestock/${indicator._id}/edit` %> ">EDIT</a></button> |
+                                  <button type="button" class="btn btn-light"> 
+                                  <a class="delete" data-title="Delete Crop Item?" href="<%= `/indicatorlivestock/${indicator._id}/delete?_method=DELETE` %>">DELETE</a> 
+                                  </button>
+                              </span>
+                          </td>
+
+                        </tr>
+                        <%  }) %>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <!-- END Custom Filter/Search -->
+        </div>
+
+        <!-- Start Tab Content Tab for Animal Production Indicator -->
+        <div class="tab-pane fade" id="animalprod" role="tabpanel" aria-labelledby="animalprod-tab">
+          <div class="row" style="margin-top: 55px;">
+              <div class="col-md-6">
+                  <form action="/indicatoranimalprod/register" method="post"> 
+                      <div class="form-group">
+                        <label for="Animal Production Indicator" style="margin-top: 10px;"> Animal Production Indicator</label>
+                        <input type="text" class="form-control" name="animalProd" placeholder="Enter Animal Indicator" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add</button>
+                    </form>
+              </div>
+          </div>
+          <!-- Using Custom Filter/Search -->
+          <div class="row" style="margin-top: 55px;">
+            <div class="col-md-8">
+                <div class="card-header" style="margin-bottom: 25px;">
+                    <h6> Existing Animal Production Indicators In AIMS Database </h6>
+                </div>
+                <table class="table table-bordered" id="animalProd">
+                    <thead style="background-color: rgba(0,0,0,.03);">
+                        <tr>
+                          <th class="">Existing Animal Production Indicators</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                        <% animalprodIndicators.forEach( indicator => { %>
+                      <tr>
+                        <td> <%= indicator.indicator %> 
+                            <span class="float-right">
+                                <button type="button" class="btn btn-light"> <a href="<%= `/indicatoranimalprod/${indicator._id}/edit` %> ">EDIT</a></button> |
+                                <button type="button" class="btn btn-light"> 
+                                <a class="delete" data-title="Delete Crop Item?" href="<%= `/indicatoranimalprod/${indicator._id}/delete?_method=DELETE` %>">DELETE</a> 
+                                </button>
+                            </span>
+                        </td>
+
+                      </tr>
+                      <%  }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END Custom Filter/Search -->
+      </div>
+      <!-- End Tab Content Tab for Animal Production Indicator -->
+        
+  
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready( function () {
+      $('#cropIndicator').DataTable();
+      $('#livestockIndicator').DataTable();
+
+
+  } );
+  
+  
+  
+  // Function to confirm Deletion
+  $('a.delete').confirm({
+                  content: "Are you Sure you want to delete this item?",
+                  buttons: {
+                      Yes: function(){
+                          location.href = this.$target.attr('href');
+                      },
+                      No: function(){}
+                  }
+  });
+  
+  </script>

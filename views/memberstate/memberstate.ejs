@@ -1,0 +1,180 @@
+<%- include("../submenu/admin_sadc") -%>
+
+<style>
+    a:link {
+        text-decoration: none;
+    }
+</style>
+
+<div class="container">
+    <h4 style="margin-top: 25px;"> Agricultural Data for <%= memberState.countryName %> </h4>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row" style="margin-top: 40px;">
+            <div class="col-md-6">
+                <a href="/production/<%= memberState._id %>/livestock/edit">
+                    <div class="card cardList" style="width: 12rem;">
+                        <img src="/images/icons/cow.png" class="card-img-top" 
+                            alt="livestock icon" style="width: 80px; margin-left:20px;">
+                        <div class="card-body">
+                            <h5 class="card-title">Livestock</h5>
+
+                            <a href="/production/<%= memberState._id %>/livestock/new" 
+                                data-toggle="tooltip" 
+                                    data-placement="bottom" title="Add Livestock Information">
+                                    <img src="/images/icons/add.png" 
+                                        alt="Add icon" style="width: 30px;">
+                            </a>
+                            <a href="/production/<%= memberState._id %>/livestock/edit" 
+                                class="" data-toggle="tooltip" 
+                                    data-placement="bottom" title="Edit Livestock Information">
+                                    <img src="/images/icons/edit.png" 
+                                        alt="Edit icon" style="width: 30px;margin-left: 70px;">
+                            </a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <div class="card cardList" style="width: 12rem;">
+                    <img src="/images/icons/corn.png" style="width: 80px; margin-left:20px;"
+                        class="card-img-top" alt="Core Crops">
+                    <div class="card-body">
+                    <h5 class="card-title">Core Crops</h5>
+                    <a href="/production/<%= memberState._id %>/livestock/new" 
+                        data-toggle="tooltip" 
+                            data-placement="bottom" title="Add Livestock Information">
+                            <img src="/images/icons/add.png" 
+                                alt="Add icon" style="width: 30px;">
+                    </a>
+                    <a href="/production/<%= memberState._id %>/livestock/edit" 
+                        class="" data-toggle="tooltip" 
+                            data-placement="bottom" title="Edit Livestock Information">
+                            <img src="/images/icons/edit.png" 
+                                alt="Edit icon" style="width: 30px;margin-left: 70px;">
+                    </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4> <%= memberState.countryName %> At a Glance</h4>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Population (million)
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= memberState.population %></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Land Area (sq km)
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= memberState.area %></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Currency
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= memberState.currency %></h5>
+                    </div>
+                </div>
+            
+            
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 25px;">
+    <div class="col-md-4">
+            <div class="card cardList" style="width: 12rem;">
+                <img src="/images/icons/fish.png" style="width: 80px; margin-left:20px;"
+                    class="card-img-top" alt="Aquaculture">
+                <div class="card-body">
+                <h5 class="card-title">Aquaculture</h5>
+                <a href="/production/<%= memberState._id %>/livestock/new" 
+                    data-toggle="tooltip" 
+                        data-placement="bottom" title="Add Livestock Information">
+                        <img src="/images/icons/add.png" 
+                            alt="Add icon" style="width: 30px;">
+                </a>
+                <a href="/production/<%= memberState._id %>/livestock/edit" 
+                    class="" data-toggle="tooltip" 
+                        data-placement="bottom" title="Edit Livestock Information">
+                        <img src="/images/icons/edit.png" 
+                            alt="Edit icon" style="width: 30px;margin-left: 70px;">
+                </a>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h4 style="margin-top: 65px;">Analytical Tools</h4>
+    </div>
+</div>
+<div class="row" style="margin-top:45px">
+    
+    <div class="col-md-4">
+       
+            <div class="card cardList" style="width: 15rem;">
+                <img src="/images/icons/graphs.png" style="width: 120px; margin-left:20px;"
+                    class="card-img-top" alt="Graphs">
+                <div class="card-body">
+                    <a href="/dashboard/<%= memberState._id %>"><h5 class="card-title">Graphs</h5> </a>
+                </div>
+            </div>
+       
+    </div>
+    <div class="col-md-6">
+        <div class="card cardList" style="width: 15rem;">
+            <img src="/images/icons/table.png" style="width: 120px; margin-left:20px;"
+                class="card-img-top" alt="Table Format">
+            <div class="card-body">
+                <h5 class="card-title">Table Format</h5>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        $( ".cardList" ).hover(
+        function() {
+            $(this).addClass('shadow-lg').css('cursor', 'pointer'); 
+        }, function() {
+            $(this).removeClass('shadow-lg');
+        }
+        );
+        
+        // document ready  
+});
+
+</script>
+
+
+
+
+
+
+
+

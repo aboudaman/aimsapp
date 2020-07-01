@@ -1,0 +1,35 @@
+<%- include("../submenu/admin_sadc") -%>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4 style="margin-top: 10px;">Edit Crop Indicator</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="<%= `/indicatorcrops/${indicator._id}/update?_method=PUT` %>" method="post">
+                <div class="form-group">
+                  <label for="Crop Indicator" style="margin-top: 10px;">Crop Indicator</label>
+                  <input type="text" class="form-control" name="cropIndicator" value="<%= indicator.indicator %>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <!-- <button type="reset" class="btn btn-default pull-right">Cancel</button> -->
+                <a class="cancel" data-title="Cancel Edit of Crop Indicator?" href="/indicator/new">Cancel</a> 
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+        $('a.cancel').confirm({
+            content: "Are you Sure you want to Cancel?",
+            buttons: {
+                Yes: function(){
+                    location.href = this.$target.attr('href');
+                },
+                No: function(){}
+            }
+        });
+
+</script>

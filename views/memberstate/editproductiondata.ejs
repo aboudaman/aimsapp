@@ -1,0 +1,21 @@
+<div>
+	<h1> Edit Livestock Production Data </h1>
+	<%- include("../submenu/submenu") -%>
+
+	<form class="uk-form-stacked" action="<%= `/production/${memberState._id}/${productionData._id}/update?_method=PUT` %>" method="POST">
+
+	    <div class="uk-margin">
+		<label class="uk-form-label" for="Livestock">Livestock Name</label>
+		<div class="uk-form-controls">
+		    <input class="uk-input" name="livestockName" value="<%= productionData.name %>" type="text">
+		</div>
+	    </div>
+	    <div class="uk-margin">
+		<label class="uk-form-label" for="Quantity">Quantity</label>
+		<div class="uk-form-controls">
+		    <input class="uk-input" name="quantity" value="<%= productionData.quantity %>"type="text">
+		</div>
+	    </div>
+	    <input type="submit">
+	</form>
+</div>

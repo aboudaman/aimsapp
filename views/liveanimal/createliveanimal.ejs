@@ -1,0 +1,69 @@
+<%- include("../submenu/admin_sadc") -%>
+<div class="container">
+    <div class="row" style="margin-top: 25px;">
+        <div class="col">
+            <h4>Add A Livestock To The Database</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="/livestock/register" method="post">
+                <div class="form-group">
+                  <label for="Livestock Name" style="margin-top: 10px;">Livestock </label>
+                  <input type="text" class="form-control" name="animalName" id="formGroupExampleInput" placeholder="Enter Livestock Item" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Livestock</button>
+              </form>
+        </div>
+	</div>
+
+	      <!-- Using Custom Filter/Search -->
+
+		  <div class="row" style="margin-top: 55px;">
+			<div class="col-md-8">
+				<div class="card-header" style="margin-bottom: 25px;">
+					<h6> Existing Livestocks in Database </h6>
+				</div>
+				<table class="table table-bordered" id="livestock">
+					<thead style="background-color: rgba(0,0,0,.03);">
+						<tr>
+						  <th class="">Livestocks</th>
+						</tr>
+					  </thead>
+					<tbody>
+						<% livestocks.forEach( livestock => { %>
+					  <tr>
+						<td> <%= livestock.name %> 
+							<span class="float-right">
+								<button type="button" class="btn btn-light"> <a href="<%= `/livestock/${livestock._id}/editlivestock` %> ">EDIT</a></button> |
+								<button type="button" class="btn btn-light"> 
+								<a class="delete" data-title="Delete Crop Item?" href="<%= `/livestock/${livestock._id}/deletelivestock?_method=DELETE` %>">DELETE</a> 
+								</button>
+							</span>
+						</td>
+					  </tr>
+					  <%  }) %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	
+		<!-- END Custom Filter/Search -->
+</div>
+
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#livestock').DataTable();
+	} );
+
+	$('a.delete').confirm({
+		content: "Are you Sure you want to delete this item?",
+		buttons: {
+			Yes: function(){
+				location.href = this.$target.attr('href');
+			},
+			No: function(){}
+		}
+	});
+
+</script>

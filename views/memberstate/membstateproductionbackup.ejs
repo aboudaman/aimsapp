@@ -1,0 +1,492 @@
+<style>
+    .uk-card.uk-card-body {
+        width: 350px;
+        height: 400px;
+        margin-top: 296px;
+    }
+    
+    </style>
+    <h2> Production Data for <%= memberState.countryName %> </h2>
+    
+    <!-- Bootstrap Layout -->
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            1 of 3
+          </div>
+          <div class="col-6">
+            2 of 3 (wider)
+          </div>
+          <div class="col">
+            3 of 3
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            1 of 3
+          </div>
+          <div class="col-5">
+            2 of 3 (wider)
+          </div>
+          <div class="col">
+            3 of 3
+          </div>
+        </div>
+      </div>
+    
+    
+    <!-- END Bootstrap Layout -->
+    
+    <!-- ** UK Kit ** -->
+    
+    <div class="uk-container">
+        <div class="uk-margin uk-column-1-2">
+            <div class="uk-width-1-4">
+                <!-- <form class="uk-grid-small" uk-grid action="/production/<%=`${memberState._id}`%>/analytics" method="post"> -->
+                <form class="uk-grid-small" id="chart-form" uk-grid> 
+                    <div class="uk-width-1-1@s uk-margin">
+                        <select class="uk-select" id="livestock" name="livestock" placeholder="Select Livestock" multiple required>
+                            <% liveStockProductionData.forEach(liveStock => { %>
+                                <option value= "<%= `${liveStock.name}` %>" > <%= liveStock.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+    
+                    <div class="uk-width-1-1@s uk-margin">
+                        <label><input class="uk-checkbox" type="checkbox" name="indicator" value="A"> A</label>
+                    </div>
+                    <div class="uk-width-1-1@s uk-margin">
+                        <label><input class="uk-checkbox" type="checkbox"  name = "indicator" value="B"> B</label>
+                    </div>
+            
+                    <div class="uk-width-1-1@s uk-margin">
+                        <select class="uk-select" id="year" name="year" placeholder="Select Year" multiple required>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        </select>
+                    </div>
+                <!-- <button type="submit">Generate</button>  -->
+                    <input type="submit" name="submit">
+                </form> 
+            </div>
+    
+    
+            <div class="uk-width-3-4">
+                <div class="uk-column-1-1">
+                    <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Item</a></li>
+                        <li><a href="#">Item</a></li>
+                    </ul>
+                    <ul class="uk-switcher ">
+                        <li>Hello!</li>
+                        <li>Hello again!</li>
+                        <li>Bazinga!</li>
+                    </ul>
+                </div>
+    
+                <!-- <h4> Livestock Production Information </h4> -->
+                <!-- <h3> Cattle Production Quantity per tonne </h3> -->
+    
+                <!-- <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+                    <li><a href="#">Table Format</a></li>
+                    <li><a href="#">Visualization</a></li>
+                </ul> -->
+                <div id="chartArea">
+                </div>
+    
+                <!-- <ul class="uk-switcher uk-margin">
+                    <li>
+    
+                    <table id="tableData" class="uk-table myData uk-table-striped">
+                        <thead>
+                        <tr>
+                            <th>Livestock Name</th>
+                            <th>Quantity (tonnes)</th>
+                            <th>Year</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody> -->
+                    <!-- 
+                    <tfoot>
+                            <tr>
+                                <th>Country Name</th>
+                                <th>Population</th>
+                                <th>Population</th>
+                    </tr>
+                        </tfoot>
+                    -->
+                    <!-- </table>
+    
+                    </li>
+                    
+                    <li>
+                    <div id="chartArea">
+                    </div>
+    
+                    </li>
+                </ul> -->
+    
+            </div>
+        </div>
+    
+        <!-- ** END UK KIT ** -->
+    
+    
+        
+        <!-- <div>
+    
+        Test Data, comment
+        <ul>
+            <% liveStockProductionData.forEach(liveStock => { %>
+                <li> <%= liveStock.name %> : <%= liveStock.year %> : <%= liveStock.quantity %></li>
+    
+    
+            <% }) %>
+        </ul>
+    
+        </div> -->
+    
+    
+    </div>
+    <script>
+    
+    /*
+        ###### Configure D3 variables ######
+    */
+    let margin = {left: 100, right: 10, top: 10, bottom: 100}
+    let width = 600 - margin.left-margin.right
+    let height = 600 - margin.top-margin.bottom
+    
+    // ## Set up transition ##
+    let t = d3.transition().duration(4100)
+    
+    
+    let svg = d3.select("#chartArea")
+        .append("svg")
+        .attr("width", width+margin.left+margin.right)
+        .attr("height", height+margin.top+margin.bottom)
+    
+    //#### Group the canvas ####
+    let g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    
+    
+    //## Define Group for X Axis ##
+    let xAxisGroup = g.append("g")
+                .attr("class", "bottom axis")
+                .attr("transform", "translate(0," + height + ")")
+                
+    //## Define Group for Y Axis ##
+    let yAxisGroup = g.append("g")
+                .attr("class","left axis")
+        
+    
+    //#### Set up the scale on the X Axis ####
+    let x = d3.scaleBand()
+        .range([0, width])
+        .paddingInner(0.95)
+        .paddingOuter(1.0)
+    
+    //#### Set up the scale on the Y Axis ####
+    let y =  d3.scaleLinear()
+        .range([height, 0])
+    
+    let d = 0
+    
+    let flag = true
+    
+    // ## Add Label on X Axis ##
+    let xLabel = g.append("text")
+        .attr("class", "x-axis label")
+        .attr("x", width / 2)
+        .attr("y", height + 55)
+        .attr("font-size", "20px")
+        .attr("text-anchor", "middle")
+        .style("fill", "blue")
+        .text("")
+    
+                    // ## Add Label on Y Axis ##
+    let yLabel = g.append("text")
+                    .attr("class", "y-axis label")
+                    .attr("x", -(height / 2))
+                    .attr("y", -60)
+                    .attr("font-size", "20px")
+                    .attr("text-anchor", "middle")
+                    .style("fill", "blue")
+                    .attr("transform", "rotate(-90)")
+                    .text("")
+    /*
+        $(document).ready(function() {
+            $('.myData').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+            });
+        })
+    
+    */
+    
+        let livestocks = []
+        let year = []
+    
+        $("#livestock").change(function() {
+    
+            livestocks.push($(this).val())
+        })
+        $("#year").change(function() {
+    
+            year.push($(this).val())
+        })
+        let table = $("#tableData tbody")
+        let xCoor = []
+        let yCoor = []
+        let name = []
+        //let myChart = new Object()
+        let datArr = []
+    
+        /* 
+            #### Define The Update Function ####
+    
+        */
+        const update = (data) => {
+    
+                /* ###### BEGIN Configuration for D3 Chart ######
+    
+                */
+    
+                //Toggle Flag each time update is called
+                flag = !flag
+    
+                let yValue = flag? "quantity":"year"
+    
+                //## Set up the domain(input) scale for X ##
+                x.domain(data.map(d => {
+                    return d.name
+                }))
+    
+                //## Set up domain (input) scale for Y ##
+                y.domain([0, d3.max(data, d => {
+                    return d[yValue]
+                })])
+    
+                //## Set up the X Axis Generator ##
+                let xAxis = d3.axisBottom(x)
+    
+                //## Add group to the X Axis and add Transition ##
+                xAxisGroup.transition(t)
+                    .call(xAxis)
+                    .selectAll("text")
+                        .attr("text-anchor", "end")
+                        .attr("transform", "rotate(-40)")
+    
+                //## Set up the Y Axis Generator to be located on left side of the canvas ##
+                let yAxis = d3.axisLeft(y)
+                        .ticks(3)
+                        .tickFormat(d => {
+                            return d + "m"
+                        })
+    
+                //## Add Group to the Y axis ##
+                yAxisGroup.transition(t)
+                    .call(yAxis)
+    
+                //## Begin Drawing Bar Chart ##
+    
+                //JOIN the data
+                let rectangles = g.selectAll("rect")
+                    .data(data, (d) => {
+                        return (d.name)
+                    })
+                
+                //Exit - remove old data not present in new one
+                rectangles.exit()
+                            //.attr("fill", "red")
+                            .transition(t)
+                                .attr("y", y(0))
+                                .attr("height", 0)
+                            .remove()
+    
+                //Update elements present in new data with new attributes
+                // ## Commented out because of merge()
+                // rectangles
+                // 	.transition(t)
+                // 	.attr("y", d => {
+                // 			return y(d[yValue])
+                // 		})
+                // 		.attr("x", d => {
+                // 			return x(d.name)
+                // 		})
+                // 		.attr("width", 20)
+                // 		.attr("height", d => {
+                // 			console.log("q:", d[yValue])
+                // 			return height - y(d[yValue])
+                // 		})
+    
+                //Enter new elements present in new data onto the screen
+                rectangles.enter()
+                    .append("rect")
+                    .attr("x", d => {
+                        return x(d.name)
+                    })
+                    .attr("width", 20)
+                    .attr("fill", "blue")
+                    .attr("y", y(0))
+                    .attr("height", 0)
+                    // Use merge() to eliminate Update section
+                    // Everything after merge is applied to enter() and update()
+                    // Everything before merge is applied only to enter() method
+                    .merge(rectangles)
+                    .transition(t)
+                        .attr("y", d => {
+                            return y(d[yValue])
+                        })
+                        .attr("height", d => {
+                        console.log("q:", d[yValue])
+                        return height - y(d[yValue])
+                        })
+    
+    
+                    let label = flag?"quantity":"year"
+                    yLabel.text(label)
+                    xLabel.text("Animal Production Data")
+        }
+    // Checks if button is pressed
+        document.body.addEventListener("submit", async function(event) {
+            
+            //# Clear the Canvas #
+            //d3.selectAll("g > *").remove()
+        
+            event.preventDefault()
+            xCoor.length = 0
+            yCoor.length = 0
+            name.length = 0
+            datArr.length = 0
+            const form = event.target
+    
+            let checkFlag = document.querySelector("input[name=indicator]:checked").value
+    
+            //CheckFlag = A, Quantity...checkFlag = B, Year
+    
+            //for (var prop in myChart) { if (myChart.hasOwnProperty(prop)) { delete myChart[prop]; } }
+            
+            const result = await fetch("/production/<%=memberState._id%>/analytics", {
+    
+                method: "POST",
+                body: new URLSearchParams([...(new FormData(form))])
+            })
+                .then((response) => response.json())
+                .then(result => {
+            //console.log(result.data)
+    
+                    result.data.forEach(d => {
+                        d.quantity = +d.quantity
+                    })
+    
+                //## CALL UPDATE FUNCTION ##
+                update(result.data)
+                
+    
+            })
+            .then(() => {
+    
+                //############################################### OBSOLETE CODE ###########################################
+                //#### Set up the linear scale for the chart - ####
+    
+                let scale = d3.scaleLinear()
+                    .domain([d3.min(yCoor), d3.max(yCoor)])
+                    .range([50, 100])
+            //#### END setting up of scale for the chart ####
+    
+            /*
+                    //## Set up log scale for the chart ##
+                    let logScale =  d3.scaleLog()
+                            .domain([d3.min(), d3.max()])
+                            range([0, 100])
+            
+                    //## END set up of log scale ##
+            
+            */
+    
+            /*
+    
+            //## Set up time scale ##
+            let timeScale = d3.scaleTime()
+                    .domain([new Data(2000,0,1), new Date(2001,0,1)])
+                    .range([0, 400])
+            */
+    
+    
+            /*
+            //## Using ordinal for color schemes with D3 schematic module ##
+            let colorCode = d3.scaleOrdinal()
+                    .domain("one", "two")
+                    .range(d3.schemaCategory10)
+            */
+    
+            /*
+            //## Using band scales for bar charts ##
+            let bandScale = d3.scaleBand()
+                    .domain("audi", "toyota", "bmw", "vw")
+                    .range([0,400])
+                    .paddingInner(0.2)
+                    .paddingOuter(0.2)
+    
+            */
+    //#######################################################################################
+    
+            /*
+                    d3.json("/reports/myFile.txt")
+                        .then(data => {
+            
+                            let rectangles = svg.selectAll("rect")
+                                .data(data)
+            
+                            rectangles.enter()
+                                .append("rect")
+                                .attr("x", (d, i) => {
+                                    return (i*50)
+                                })
+                                .attr("y", 20)
+                                .attr("width", 40)
+                                .attr("height", d => {
+                                    return scale(d.quantity)
+                                })
+                                .attr("fill", (d) => {
+                                    if (d.quantity < 29000) {
+                                        return "red"
+                                    } else {
+                                        return "blue"
+            
+                                    }
+            
+                                })
+                            console.log(data)
+                        })
+            
+            */
+    
+    //########################################################################################
+            })
+            .catch(error => console.log(error)) 
+        })
+        
+    </script>
+    
+    
+    
+    
+    
+    
+    
+    
+    

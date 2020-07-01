@@ -1,0 +1,31 @@
+<div>
+	<h1> Add New Livestock Slaughter Information for <%= memberstate.countryName %> </h1>
+	<%- include("../submenu/submenu") -%>
+
+	<form class="uk-form-stacked" action="<%= `/production/${memberstate._id}/animalslaughtered/register` %>" method="post">
+		<div class="uk-margin">
+		    <label class="uk-form-label" for="Livestock Name">Livestock Name </label>
+		    <select id="example" class="uk-select" name="selectlivestock">
+			<% livestocks.forEach(livestock => {%>
+			<option name="option1"><%= livestock.name%></option>
+
+			<% })%>
+		    </select>
+		</div>
+
+		<div class="uk-margin">
+			<label class="uk-form-label" for="Value">Producing Animals Slaughtered</label>
+			<div class="uk-form-controls">
+			    <input class="uk-input" name="value" type="text" placeholder="Enter Value of Producing Animals Slaughtered...">
+			</div>
+		</div>
+	       	<div class="uk-margin">
+			<label class="uk-form-label" for="Year">Year</label>
+			<div class="uk-form-controls">
+			    <input class="uk-input" name="year" type="text" placeholder="Enter Year...">
+			</div>
+		</div>
+ <input type="submit" name="submit">
+	</form>
+
+</div>

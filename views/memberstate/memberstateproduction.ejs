@@ -1,0 +1,243 @@
+<style>
+.uk-card.uk-card-body {
+    width: 350px;
+    height: 400px;
+    margin-top: 296px;
+}
+.ScrollStyle
+{
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.shadow7 {
+	/* box-shadow: 0 20px 50px rgba(233, 239, 241, 0.7); */
+	box-shadow: 5px 5px 20px;
+}
+</style>
+<div class="container">
+	<div class="row">
+		<div class="col"><h2> Production Data for <%= memberState.countryName %> </h2></div>
+		<div class="col">
+			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+				<li class="nav-item">
+				<a class="nav-link" id="pills-bchart-tab" 
+				data-toggle="pill" href="#pills-bchart" role="tab" aria-controls="pills-bchart" aria-selected="true">
+					<img src="/images/Pie-chart-icon.png" style="width: 40px; height: 40px;"class="rounded" alt="Pie Chart"></a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="pills-schart-tab" 
+				data-toggle="pill" href="#pills-schart" role="tab" aria-controls="pills-schart" aria-selected="false">
+					<img src="/images/chart.png" style="width: 40px; height: 40px;"class="rounded" alt="Bar Chart"></a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="pills-lgraph-tab" 
+				data-toggle="pill" href="#pills-lgraph" role="tab" aria-controls="pills-lgraph" aria-selected="false">
+					<img src="/images/line.png" style="width: 40px; height: 40px;"class="rounded" alt="Line Chart"></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="pills-dtable-tab" 
+					data-toggle="pill" href="#pills-dtable" role="tab" aria-controls="pills-dtable" aria-selected="false">
+					<img src="/images/table.png" style="width: 40px; height: 40px;"class="rounded" alt="Table Format"></a>
+				</li>
+		  </ul>
+		</div>
+	</div>
+</div>
+<!-- Bootstrap Layout -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 shadow7 ">
+			<form>
+				<!-- <div class="form-group"> -->
+					<!-- <label for="commodities">Select Commodity</label> -->
+					<!-- <select multiple class="form-control" name="livestock">
+						<% liveStockProductionData.forEach(liveStock => { %>
+							<option value= "<%= `${liveStock.name}` %>" > <%= liveStock.name %></option>
+						<% }) %>
+					</select> -->
+				<!-- </div> -->
+				<div class="form-group">
+					<ul uk-accordion="multiple: false">
+						<li class="">
+							<a class="uk-accordion-title" href="#"><Span style="font-weight: bold;">Livestock</Span></a>
+							<div class="uk-accordion-content">
+								<% liveStockNames.forEach(livestock =>  { %>
+									<div class="form-group form-check">
+									<input type="checkbox" class="form-check-input" name="livestock" value=<%= livestock %>
+									<label class="form-check-label" for= <%= livestock %>>  <%= livestock %></label>
+								  </div>
+								<% }) %>
+							</div>
+						</li>
+						<li>
+							<a class="uk-accordion-title" href="#"><Span style="font-weight: bold;">Indicators</Span></a>
+							<div class="uk-accordion-content">
+								<p>Ut enim ad minim veniam, quis nostrud 
+									exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor reprehenderit.</p>
+							</div>
+						</li>
+						<li>
+							<a class="uk-accordion-title" href="#"><Span style="font-weight: bold;">Reporting Period</Span></a>
+							<div class="uk-accordion-content">
+								<div class="uk-accordion-content">
+									<% for (var year of liveStockYear) { %>
+									<div class="form-group form-check">
+										<input type="checkbox" class="form-check-input" name="year" value=<%= year %>
+										<label class="form-check-label" for= <%= year %>>  <%= year %></label>
+									  </div>
+									<% } %>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+
+			</form>
+		</div>
+		<div class="col-md-8">
+
+
+			<div class="spinner-border text-primary row justify-content-center" id="loader" 
+					role="status" style="display: none; margin-left: 50%;">
+					<span class="sr-only" >Loading...</span>
+			</div>
+
+			<!-- <p class="text-center display-5" id="nodata">No Data has been loaded.  Please run a query!</p> -->
+			<div class="alert alert-warning" id="nodata" role="alert">
+				No Data has been loaded.  Please run a query!
+			</div>
+			<div class="alert alert-danger" id="nodata2" role="alert" style="display: none;">
+				There is no data found.  Please try another query. 
+			</div>
+			<div class="tab-content" id="pills-tabContent">
+				<div class="tab-pane fade show active" id="pills-bchart" 
+					role="tabpanel" aria-labelledby="pills-bchart-tab">
+						<div id="chartArea" style="width: 600px; height: 400px;"></div>
+				</div>
+				<div class="tab-pane fade" id="pills-schart" 
+					role="tabpanel" aria-labelledby="pills-schart-tab">
+						<div id="scatterArea" style="width: 600px; height: 400px;"></div>
+				</div>
+				<div class="tab-pane fade" id="pills-lgraph" 
+					role="tabpanel" aria-labelledby="pills-lgraph-tab">
+					<div id="chartdiv" style="width: 600px; height: 400px;"></div>
+				</div>
+				<div class="tab-pane fade" id="pills-dtable" 
+					role="tabpanel" aria-labelledby="pills-dtable-tab">
+					<div id="tablediv" style="width: 600px; height: 400px;"></div>
+				
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+<script>
+	// %%% REFRESH PAGE to rEMove Duplicates %%%%%%%%%%%%%%%%%%%%%%
+let loader = document.getElementById("loader")
+let barSelect = document.getElementById("pills-bchart-tab")
+
+// Create chart1 instance
+let chart1 = am4core.create("chartArea", am4charts.PieChart);
+// Create pie series
+let series = chart1.series.push(new am4charts.PieSeries());
+	series.dataFields.value = "quantity";
+	series.dataFields.category = "name";
+
+// ###########################
+
+// Create Chart2 instance
+let chart2 = am4core.create("scatterArea", am4charts.XYChart)
+
+
+// Create Axis
+let categoryAxis = chart2.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "name";
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.minGridDistance = 30;
+
+let valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
+
+// Create the series
+let series2 = chart2.series.push(new am4charts.ColumnSeries());
+series2.dataFields.valueY = "quantity";
+series2.dataFields.categoryX = "name";
+
+
+const drawBar = (data) => {
+	console.log(data)
+	chart2.data = data
+	// chart2.legend = new am4charts.legend()
+	chart2.exporting.menu = new am4core.ExportMenu();
+}
+
+const drawPie = (data) => {
+	console.log(data)
+	// Add data
+	chart1.data = data
+	// And, for a good measure, let's add a legend
+ chart1.legend = new am4charts.Legend();
+ chart1.exporting.menu = new am4core.ExportMenu();
+}
+
+// Checks if button is pressed
+	document.body.addEventListener("submit", async function(event) {
+		loader.style.display = "block"
+		event.preventDefault()
+		
+		// chart1.dispose()
+		// chart2.dispose()
+		console.log(chart1)
+
+		const form = event.target
+		console.log(form)
+		// Clear Page Display Area
+		document.getElementById("nodata").style.display = "none"
+		document.getElementById("nodata2").style.display = "none"
+
+		//let checkFlag = document.querySelector("input[name=indicator]:checked").value
+
+		//CheckFlag = A, Quantity...checkFlag = B, Year
+		const result = await fetch("/production/<%=memberState._id%>/analytics", {
+
+			method: "POST",
+			body: new URLSearchParams([...(new FormData(form))])
+		})
+	        .then((response) => response.json())
+			.then(result => {
+			loader.style.display = "none"
+			barSelect.classList.add("active")
+			//console.log(result.data)
+			result.data.forEach(d => {
+					d.quantity = +d.quantity
+				})
+			// Checks if query returns data
+			if (result.data.length == 0) {
+				chart1.dispose()
+				chart2.dispose()
+				document.getElementById("nodata2").style.display = "block"
+			} else {
+				document.getElementById("nodata2").style.display = "none"
+				drawPie(result.data)
+				drawBar(result.data)
+			}
+				console.log(result.data)
+
+
+		})
+		.catch(error => console.log(error)) 
+	})
+	
+</script>
+
+
+
+
+
+
+
+

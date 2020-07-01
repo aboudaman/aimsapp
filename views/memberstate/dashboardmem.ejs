@@ -1,0 +1,364 @@
+                <!-- App favicon -->
+                <!-- <link rel="shortcut icon" href="assets/images/favicon.ico"> -->
+
+                <!-- third party css -->
+                <!-- <link href="assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
+                <!-- third party css end -->
+        
+                <!-- App css -->
+                <!-- <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" /> -->
+                <!-- <link href="assets/css/app-modern.min.css" rel="stylesheet" type="text/css" id="light-style" /> -->
+                <!-- <link href="assets/css/app-modern-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" /> -->
+
+                <!-- BOTS ID 5ee1f47ef29c0d1560f76205 -->
+<style>
+
+.banner {
+    color: white;
+}
+
+.wrapper {
+    display: -webkit-box;
+    display: flex;
+}
+
+.plus::after {
+    content: '\002B';
+    float: right;
+    font-weight: bold;
+
+}
+.btn-link:hover{
+    text-decoration: none;
+}
+.bar::after {
+    content: "\2212";
+
+}
+.dropdown-menu {
+
+    max-height: max-content;
+    max-width: max-content;
+}
+.left-bar {
+    border: 1px solid whitesmoke;
+    padding: 10px;
+    box-shadow: 5px 10px 18px whitesmoke;
+    margin-top: 10px;
+    position: relative;
+    background-color: white;
+    min-width: 300px;
+    max-width: 300px;
+}
+</style>
+<%- include("../submenu/admin_sadc") -%>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+                <div class="left-bar">
+                    <div style="padding: 30px 20px; text-align: center;">
+                        <span>
+                            <img src="assets/images/flags/sidebar-flag.jpg" alt="SADC Flag" style="width:65px;height:62px;" class="rounded-circle">
+                        </span>
+                    </div>
+        
+                        <!-- Start Accordion -->
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left plus" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Member States
+                                    </button>
+                                    </h2>
+                                </div>
+                                
+                                <!-- Accordion Content -->
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <% memberState.forEach(member =>  { %>
+                                            <div class=" form-check">
+                                                <input type="checkbox" class="form-check-input" name="member.countryName" value=<%= member.countryName %>
+                                                <label class="form-check-label" for= <%= member.countryName %>>  <%= member.countryName %></label>
+                                            </div>
+                                        <% }) %>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed plus" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Core Crops
+                                    </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <% coreCrops.forEach(crop =>  { %>
+                                            <div class=" form-check">
+                                                <input type="checkbox" class="form-check-input" name="coreCrop" value=<%= crop %>
+                                                <label class="form-check-label" for= <%= crop %>>  <%= crop %></label>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed plus" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Indicators
+                                    </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <% cropIndicators.forEach(indicator =>  { %>
+                                            <div class=" form-check">
+                                                <input type="checkbox" class="form-check-input" name="cropIndicator" value=<%= indicator %>
+                                                <label class="form-check-label" for= <%= indicator %>>  <%= indicator %></label>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header" id="headingFour">
+                                    <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed plus" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                                        Reporting Period
+                                    </button>
+                                    </h2>
+                                </div>
+                                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <!-- Hardcoded - Need to create database table for years -->
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2010">
+                                            <label class="form-check-label" for="year">  2010</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2011">
+                                            <label class="form-check-label" for="year">  2011</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2012">
+                                            <label class="form-check-label" for="year">  2012</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2013">
+                                            <label class="form-check-label" for="year">  2013</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2014">
+                                            <label class="form-check-label" for="year">  2014</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2015">
+                                            <label class="form-check-label" for="year">  2015</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2016">
+                                            <label class="form-check-label" for="year">  2016</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2017">
+                                            <label class="form-check-label" for="year">  2017</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2018">
+                                            <label class="form-check-label" for="year">  2018</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2019">
+                                            <label class="form-check-label" for="year">  2019</label>
+                                        </div>
+                                        <div class=" form-check">
+                                            <input type="checkbox" class="form-check-input" name="year" value="2020">
+                                            <label class="form-check-label" for="year">  2020</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Accordion -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 style="line-height: 50px;">Dashboard</h4>
+                </div>
+                <div class="col-md-8">
+                    <!-- Add Graph Menus -->
+                    <ul class="nav nav-pills mb-3 float-right" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                        <a class="nav-link" id="pills-bchart-tab" 
+                        data-toggle="pill" href="#pills-bchart" role="tab" aria-controls="pills-bchart" aria-selected="true">
+                            <img src="/images/Pie-chart-icon.png" style="width: 40px; height: 40px;"class="rounded" alt="Pie Chart"></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" id="pills-schart-tab" 
+                        data-toggle="pill" href="#pills-schart" role="tab" aria-controls="pills-schart" aria-selected="false">
+                            <img src="/images/chart.png" style="width: 40px; height: 40px;"class="rounded" alt="Bar Chart"></a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" id="pills-lgraph-tab" 
+                        data-toggle="pill" href="#pills-lgraph" role="tab" aria-controls="pills-lgraph" aria-selected="false">
+                            <img src="/images/line.png" style="width: 40px; height: 40px;"class="rounded" alt="Line Chart"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-dtable-tab" 
+                            data-toggle="pill" href="#pills-dtable" role="tab" aria-controls="pills-dtable" aria-selected="false">
+                            <img src="/images/table.png" style="width: 40px; height: 40px;"class="rounded" alt="Table Format"></a>
+                        </li>
+                  </ul>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                        <div class="spinner-border text-primary row justify-content-center" id="loader" 
+                        role="status" style="display: none; margin-left: 50%;">
+                        <span class="sr-only" >Loading...</span>
+                        </div>
+
+                    <!-- <p class="text-center display-5" id="nodata">No Data has been loaded.  Please run a query!</p> -->
+                    <div class="alert alert-warning" id="nodata" role="alert">
+                        No Data has been loaded.  Please run a query!
+                    </div>
+                    <div class="alert alert-danger" id="nodata2" role="alert" style="display: none;">
+                        There is no data found.  Please try another query. 
+                    </div>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade active" id="pills-bchart" 
+                            role="tabpanel" aria-labelledby="pills-bchart-tab">
+                                <div id="chartArea" style="width: 600px; height: 400px;">Pie Here</div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-schart" 
+                            role="tabpanel" aria-labelledby="pills-schart">
+                                <div id="scatterArea" style="width: 600px; height: 400px;">Bar Here</div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-lgraph" 
+                            role="tabpanel" aria-labelledby="pills-lgraph">
+                            <div id="chartdiv" style="width: 600px; height: 400px;">Line Here</div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-dtable" 
+                            role="tabpanel" aria-labelledby="pills-dtable-tab">
+                            <div id="tablediv" style="width: 600px; height: 400px;">Data Table Here</div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+ 
+<script>
+    // Checks if button is pressed
+    document.body.addEventListener("submit", async function(event) {
+		// loader.style.display = "block"
+		event.preventDefault()
+		
+		// chart1.dispose()
+		// chart2.dispose()
+		// console.log(chart1)
+
+        const form = event.target
+        // console.log(form)
+		// Clear Page Display Area
+		document.getElementById("nodata").style.display = "none"
+		document.getElementById("nodata2").style.display = "none"
+
+		//let checkFlag = document.querySelector("input[name=indicator]:checked").value
+
+		//CheckFlag = A, Quantity...checkFlag = B, Year
+		const result = await fetch("/production/analytics", {
+
+			method: "POST",
+			body: new URLSearchParams([...(new FormData(form))])
+		})
+	        .then((response) => response.json())
+			.then(result => {
+			loader.style.display = "none"
+			barSelect.classList.add("active")
+			//console.log(result.data)
+			result.data.forEach(d => {
+					d.quantity = +d.quantity
+				})
+			// Checks if query returns data
+			if (result.data.length == 0) {
+				chart1.dispose()
+				chart2.dispose()
+				document.getElementById("nodata2").style.display = "block"
+			} else {
+				document.getElementById("nodata2").style.display = "none"
+				drawPie(result.data)
+				drawBar(result.data)
+			}
+				// console.log(result.data)
+
+
+		})
+		.catch(error => console.log(error)) 
+	})
+
+        //#### END Function to create Analytics ####
+
+    // Start Accordion Script
+    $(document).ready(function(){
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.show").each(function(){
+        	// $(this).prev(".card-header").find(".plus").addClass("fa-minus").removeClass("fa-plus");
+        	$(this).prev(".card-header").find(".plus").toggleClass("bar")
+
+        });
+        
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+        	// $(this).prev(".card-header").find(".plus").removeClass("fa-plus").addClass("fa-minus");
+        	$(this).prev(".card-header").find(".plus").toggleClass("bar");
+        }).on('hide.bs.collapse', function(){
+        	// $(this).prev(".card-header").find(".plus").removeClass("fa-minus").addClass("fa-plus");
+        	$(this).prev(".card-header").find(".plus").toggleClass("bar");
+        });
+
+
+        // #### Start Function to Create Analytics ####
+
+
+
+
+
+
+    });
+
+    // END Accordion Script
+</script>
+
+
+
+
+        <!-- bundle -->
+        <!-- <script src="assets/js/vendor.min.js"></script>
+        <script src="assets/js/app.min.js"></script> -->
+
+        <!-- third party js -->
+        <!-- <script src="assets/js/vendor/Chart.bundle.min.js"></script>
+        <script src="assets/js/vendor/apexcharts.min.js"></script>
+        <script src="assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script> -->
+        <!-- third party js ends -->

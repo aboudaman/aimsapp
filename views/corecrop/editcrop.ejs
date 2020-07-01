@@ -1,0 +1,35 @@
+<%- include("../submenu/admin_sadc") -%>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4 style="margin-top: 10px;">Edit Crop</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form action="<%= `/crop/${crop._id}/update?_method=PUT` %>" method="post">
+                <div class="form-group">
+                  <label for="formGroupExampleInput" style="margin-top: 10px;">Core Crop Item</label>
+                  <input type="text" class="form-control" name="coreCrop" value="<%= crop.crop %>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <!-- <button type="reset" class="btn btn-default pull-right">Cancel</button> -->
+                <a class="cancel" data-title="Cancel Edit of Crop Item" href="/crop/new">Cancel</a> 
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+        $('a.cancel').confirm({
+            content: "Are you Sure you want to Cancel?",
+            buttons: {
+                Yes: function(){
+                    location.href = this.$target.attr('href');
+                },
+                No: function(){}
+            }
+        });
+
+</script>

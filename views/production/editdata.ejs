@@ -1,0 +1,65 @@
+<%- include("../submenu/admin_sadc") -%>
+
+<style>
+    a:link {
+        text-decoration: none;
+    }
+</style>
+<div class="container">
+    <h4 style="margin-top: 25px;">Update Livestock Reporting Information for <%= memberState.countryName %></h4>
+    <div class="row" style="margin-top: 25px;">
+        <div class="col-md-12">
+            <form action="<%= `/production/${memberState._id}/${livestock._id}/update?_method=PUT` %>" method="POST">
+                <div class="form-group">
+					<label for="Member State Name">Member State</label>
+					<input type="text" name="countryName" class="form-control" value="<%= memberState.countryName %>" readonly>
+				</div>
+				<div class="form-group">
+					<label for="livestock">Livestock</label>
+					<input type="text" name="livestock" class="form-control" value="<%= livestock.livestock %>">
+				</div>
+				<div class="form-group">
+					<label for="Annual Total">Reporting Year</label>
+					<input type="text" name="year" class="form-control" value="<%= livestock.reportingYear %>" >
+                </div>
+                <div class="form-group">
+                    <label for="indicators">Indicator</label>
+                    <select class="form-control" name="indicator" value="females"  id="indicators">
+                        <% livestockIndicators.forEach(indicator => {%>
+                        <option value= "<%= indicator.indicator %>" 
+                          <%= indicator.indicator == livestock.indicator ? 'selected' : '' %> > <%= indicator.indicator %>
+                        </option>
+                      <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+					<label for="Annual Total">Annual Total</label>
+					<input type="text" name="quantity" class="form-control" value="<%= livestock.quantity %>" >
+				</div>
+				<button class="btn btn-primary" type="submit" style="margin-bottom: 25px;">Update</button>
+                <button class="btn btn-primary cancel" type="cancel" 
+                    data-title="Cancel Edit of Livestock Item?" 
+                        href="/production/<%= memberState._id %>/livestock/edit" 
+                            style="margin-bottom: 25px;">Cancel</button>
+
+                 
+            </form>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+
+
+    $('button.cancel').confirm({
+        content: "Are you Sure you want to Cancel?",
+        buttons: {
+            Yes: function(){
+                location.href = this.$target.attr('href');
+            },
+            No: function(){}
+        }
+    });
+
+</script>

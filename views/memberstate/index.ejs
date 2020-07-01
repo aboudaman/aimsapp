@@ -1,0 +1,30 @@
+<%- include("../submenu/admin_sadc") -%>
+<div class="uk-container" uk-grid>
+<div class="uk-flex-center uk-column-1-1">
+	<h2 style="margin-top: 25px;"> SADC Member States </h2>
+	<!-- <button onclick="printJS({ printable: 'printJS-form', type: 'html', header: 'PrintJS - Form Element Selection' })" class="uk-button uk-button-default">Export to PDF</button> -->
+</div>
+<!-- <div class="uk-width-1-1"><h5 onclick="printJS({ printable: 'printJS-form', type: 'html', header: 'PrintJS - Form Element Selection' })"> Export TO PDF</h5>-->
+</div>
+
+<div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+	<% memberStates.forEach(member => { %>
+	    <div>
+		<div class="uk-card uk-card-hover uk-card-default uk-card-body">
+		<a class="uk-link-reset" href="<%= `/memberstate/${member._id}`%>">
+		    <div class="uk-width-auto">
+			<img class="uk-border-circle uk-text-middle " width="40" height="40" src="<%= `/images/flags/${member.flag}` %>" />
+		        <span class="uk-card-title uk-text-middle"><%= member.countryName %></span>
+	            </div>
+		</a>
+		    <p></p>
+			<a href="<%= `/memberstate/${member._id}/editmemberstate` %>"
+				uk-icon="icon: file-edit"
+			</a>
+			<a href="<%= `/memberstate/${member._id}/deletememberstate?_method=DELETE` %>"
+				<span onclick="return confirm('Are you sure you want to Delete?')" style="margin-left: 6em;" uk-icon="icon: trash"></span>
+			</a>
+		  </div>
+	     </div>
+	<% }) %>
+</div>

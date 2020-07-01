@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SADC AIMS</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Load CSS Files -->
+	<link rel="stylesheet" href="/dist/multi.min.css">
+    <link rel="stylesheet" href="/css/print.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/DataTables/datatables.min.css"/> -->
+	<link rel="stylesheet" href="/css/uikit.min.css" />
+
+	<!-- Data Table CSS -->
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/DataTables/datatables.min.css"/>
+
+
+
+	<!-- Load Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+
+	<!-- Load third Party CSS -->
+	<link rel="stylesheet" href="/css/jquery-confirm.min.css" />
+
+	<!-- Dashboard Dependencies -->
+	<!-- third party css -->
+	<!-- <link href="assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> -->
+	<!-- third party css end -->
+
+	<!-- App css -->
+ 
+
+	<!-- END Dashboard Dependencies -->
+
+
+
+	<!-- Load Javascript Files -->
+
+	<!-- Load Bootstrap JS Files -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/sweetalert2.all.min.js"></script>
+
+    <script src="/js/print.min.js"></script>
+	<!-- <script type="text/javascript" src="/DataTables/datatables.min.js"></script> -->
+	<script src="/dist/multi.min.js"></script>
+	<script src="/d3/d3.min.js"></script>
+	<script src="/charts/core.js"></script>
+	<script src="/charts/charts.js"></script>
+	<script src="/charts/animated.js"></script>
+
+
+
+	<!-- Load Vender JS File -->
+	<script src="/js/stickable.js"></script>
+	<script src="/js/jquery-confirm.min.js"></script>
+
+	<!-- <script src="/js/buttons.html5.min.js"></script> -->
+    <script src="/js/uikit.min.js"></script>
+    <script src="/js/uikit-icons.min.js"></script>
+
+	<!-- External Jquery Dependency Table Search and Pagination-->
+	<script src="/js/fancyTable.min.js"></script>
+
+	<!-- Data Table JS -->
+	<script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+	<!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+
+	<style>
+
+	/* .navbar-brand>a {
+		color:black;
+	}
+	.navbar-nav>li>a {
+			color: black;
+		}
+	.navbar-nav>li>a:hover {
+			text-decoration: underline;
+		}
+		a.navbar-item.uk-logo {
+
+			color: black;
+		} */
+		/* .sticky {
+			position: fixed;
+			top: 0;
+			width: 100%
+			} */
+
+/* Add Up And Down Arrow to Tables For sorting */
+		.arrowUp::after {
+			content: '\2195';
+			margin-left: 5px;
+
+}
+
+		.logo-images {
+			margin-top: 8px;
+			margin-left: 3px;
+		}
+		.stosar-logo {
+			width: 65px;
+			/* height: 80px; */
+			/* background-color: white; */
+		}
+		.divider {
+			margin-top: 0px;
+			margin-bottom: 0px;
+			background-color: white;
+			color:#dea900; 
+		}
+
+		th {
+  			cursor: pointer;
+		}
+
+		/* div.uk-card.uk-card-default.uk-card-body {
+
+			margin-top: 100px;
+		}
+		div.uk-card.uk-card-primary.uk-card-body {
+
+			margin-top: 100px;
+		}
+		div.uk-card.uk-card-secondary.uk-card-body {
+
+			margin-top: 100px;
+		} */
+
+	</style>
+    </head>
+	<body>
+
+	 <% if (flashMessages.success) { %> 
+
+				<div class="alert alert-success alert-dismissible fade show myAlert" role="alert">
+					<%= flashMessages.success %>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<script>
+					const closeAlert = () => {
+						$(".myAlert").alert("close");
+					}
+					setTimeout(closeAlert, 2500)
+				</script>
+
+
+		<!-- <p uk-margin>
+		<script>
+			UIkit.notification({
+				message: '<%= flashMessages.success %>',
+				status: 'primary',
+				pos: 'top-center',
+				timeout: 1000
+				})	
+		</script>
+	</p> -->
+	<% } else if (flashMessages.delete) { %>
+		<script>	
+		 UIkit.notification({
+				message:'<%= flashMessages.success %>', 
+				status: 'danger', 
+				pos: 'top-center', 
+				timeout: 1000 
+				})	
+		</script>
+	<% } else if (flashMessages.error) { %>
+		<script>	
+	 UIkit.notification({
+			message:'<%= flashMessages.error %>', 
+			status: 'danger', 
+			pos: 'top-center', 
+			timeout: 4000 
+			})	
+		</script>
+	<% } %>
+	<script>
+
+
+	</script>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col"><img src="/images/sadc_logo1.png" class="float-left stosar-logo" 
+				style="margin-top: 20px;" alt="SADC Logo" ></div>
+			<div class="col"><img src="/images/fao.png" class="d-block stosar-logo" 
+				style="margin-left: 33px; margin-top: 20px;width: 280px;"  alt="FAO Logo"></div>
+			<div class="col"><img src="/images/eu_logo.png" class="float-right stosar-logo" 
+				style="margin-top:30px;" alt="EU Logo"></div>
+
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<!-- <div class="row" id="logoHeader">
+			<div class="col"><img src="/images/sadc_logo1.png" class="float-left stosar-logo" 
+				style="margin-top: 20px;" alt="SADC Logo" ></div>
+			<div class="col"><img src="/images/fao.png" class="d-block stosar-logo" 
+				style="margin-left: 33px; margin-top: 20px;width: 280px;"  alt="FAO Logo"></div>
+			<div class="col"><img src="/images/eu_logo.png" class="float-right stosar-logo" 
+				style="margin-top:20px;" alt="EU Logo"></div>
+		</div> -->
+	
+		<nav class="navbar navbar-expand-lg navbar-light" style="background-color: white; box-shadow: 2px 13px white;">
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand" href="#"><h3> SADC AIMS </h3></a>
+		
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item">
+				<a class="nav-link" href="#">Project Background <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" href="/memberstates">SADC Member States</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" href="/memberstate/new">Add Member States</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">News and Events</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span uk-icon="settings"></span>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" href="#">Manage AIMS Database</a>
+					<a class="dropdown-item" href="/livestock/new">Add Livestock To Database</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</li> -->
+
+			</ul>
+			<!-- <form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form> -->
+			
+			</div>
+		</nav> 
+	
+<!--  -->
+	   <hr>
+
+		<%-body%>
+	</div>
+
+
+
+<!-- Dashboard Dependecies Scripts -->
+
+<!-- bundle -->
+<!-- <script src="assets/js/vendor.min.js"></script>
+<script src="assets/js/app.min.js"></script> -->
+
+<!-- third party js -->
+<!-- <script src="assets/js/vendor/Chart.bundle.min.js"></script> -->
+<!-- <script src="assets/js/vendor/apexcharts.min.js"></script>
+<script src="assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="assets/js/vendor/jquery-jvectormap-world-mill-en.js"></script> -->
+<!-- third party js ends -->
+
+<!-- demo app -->
+<!-- <script src="assets/js/pages/demo.dashboard-analytics.js"></script> -->
+<!-- end demo js-->
+        
+
+<!-- END Dashboard Dependencies Scripts -->
+
+<script>
+
+
+// $( '#example' ).multi({ 
+// 	non_selected_header: 'Languages',
+// 	// enable search
+// 	enable_search: true,
+
+// 	// placeholder of search input
+// 	search_placeholder: 'Search...',
+// 	selected_header: 'Selected Languages'
+// })
+
+</script>
+	<!--
+	<div class="uk-column">
+	<footer style= "margin-top: 20px">
+		<div class="uk-card-footer"> 
+		<ul class="uk-navbar-nav">
+		    <li><a href="https://www.sadc.int/about-sadc">About SADC</a> </li>
+		    <li><a href="https://www.sadc.int/sadc-secretariat">SADC Secretariat</a></li>
+		    <li><a href="https://www.sadc.int/member-states">Member States</a></li>
+		    <li><a href="https://www.sadc.int/documents-publications">Documents and Publications</a></li>
+		</ul>	
+	    </div>	
+	</footer>
+	</div>
+	-->
+</body>
+</html>

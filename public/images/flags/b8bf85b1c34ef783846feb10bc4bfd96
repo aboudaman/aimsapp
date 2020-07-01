@@ -1,0 +1,150 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               5.5.24-log - MySQL Community Server (GPL)
+-- Server OS:                    Win64
+-- HeidiSQL Version:             8.3.0.4694
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+-- Dumping structure for table procurementplan.coa
+CREATE TABLE IF NOT EXISTS `coa` (
+  `coaID` int(11) NOT NULL AUTO_INCREMENT,
+  `Account` varchar(50) DEFAULT NULL,
+  `OperUnit` varchar(50) DEFAULT NULL,
+  `Fund` varchar(50) DEFAULT NULL,
+  `DeptID` varchar(50) DEFAULT NULL,
+  `ImpAgent` varchar(50) DEFAULT NULL,
+  `Donor` varchar(50) DEFAULT NULL,
+  `ProjNumber` varchar(50) DEFAULT NULL,
+  `ActivityNumber` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`coaID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table procurementplan.duedate
+CREATE TABLE IF NOT EXISTS `duedate` (
+  `dateID` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`dateID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table procurementplan.items
+CREATE TABLE IF NOT EXISTS `items` (
+  `itemsID` int(11) NOT NULL AUTO_INCREMENT,
+  `Type of Item` varchar(50) DEFAULT NULL,
+  `Type of service` varchar(50) DEFAULT NULL,
+  `TimeFrame` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`itemsID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table procurementplan.months
+CREATE TABLE IF NOT EXISTS `months` (
+  `monthID` int(11) NOT NULL AUTO_INCREMENT,
+  `month` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`monthID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table procurementplan.procdetails
+CREATE TABLE IF NOT EXISTS `procdetails` (
+  `procID` int(11) NOT NULL AUTO_INCREMENT,
+  `Cost` varchar(50) DEFAULT NULL,
+  `UnitName` varchar(50) DEFAULT NULL,
+  `Service or Good` varchar(50) DEFAULT NULL,
+  `Quantity` varchar(50) DEFAULT NULL,
+  `EstimatedCost` double DEFAULT NULL,
+  `BudgetAmount` double DEFAULT NULL,
+  `Account` varchar(50) DEFAULT NULL,
+  `OperUnit` varchar(50) DEFAULT NULL,
+  `Fund` varchar(50) DEFAULT NULL,
+  `DeptID` varchar(50) DEFAULT NULL,
+  `ImpAgent` varchar(50) DEFAULT NULL,
+  `Donor` varchar(50) DEFAULT NULL,
+  `ProjNumber` varchar(50) DEFAULT NULL,
+  `ActivityNumber` varchar(50) DEFAULT NULL,
+  `QQuantity` decimal(32,0) DEFAULT NULL,
+  `EEstimatedCost` decimal(32,0) DEFAULT NULL,
+  `BBudgetAmount` decimal(32,0) DEFAULT NULL,
+  `AAccount` varchar(50) DEFAULT NULL,
+  `OOperUnit` varchar(50) DEFAULT NULL,
+  `FFund` varchar(50) DEFAULT NULL,
+  `DDeptID` varchar(50) DEFAULT NULL,
+  `IImpAgent` varchar(50) DEFAULT NULL,
+  `DDonor` varchar(50) DEFAULT NULL,
+  `PProjNumber` varchar(50) DEFAULT NULL,
+  `AActivityNumber` varchar(50) DEFAULT NULL,
+  `DDeliveryLocation` mediumtext,
+  `FFocalPoint` varchar(50) DEFAULT NULL,
+  `CComments` mediumtext,
+  `projName` varchar(50) DEFAULT NULL,
+  `projID` varchar(50) DEFAULT NULL,
+  `headOfUnit` varchar(50) DEFAULT NULL,
+  `Year` varchar(50) DEFAULT NULL,
+  `projManager` varchar(50) DEFAULT NULL,
+  `UnitofMeasure` varchar(50) DEFAULT NULL,
+  `Item Required` varchar(50) DEFAULT NULL,
+  `m1` double DEFAULT NULL,
+  `m2` double DEFAULT NULL,
+  `m3` double DEFAULT NULL,
+  `m4` double DEFAULT NULL,
+  `m5` double DEFAULT NULL,
+  `m6` double DEFAULT NULL,
+  `m7` double DEFAULT NULL,
+  `m8` double DEFAULT NULL,
+  `m9` double DEFAULT NULL,
+  `m10` double DEFAULT NULL,
+  `m11` double DEFAULT NULL,
+  `m12` double DEFAULT NULL,
+  `total` double DEFAULT NULL,
+  `amtToBeDistributed` double DEFAULT NULL,
+  `dateRequired` date DEFAULT NULL,
+  `enteredBudget` double DEFAULT NULL,
+  `q1` double DEFAULT NULL,
+  `q2` double DEFAULT NULL,
+  `q3` double DEFAULT NULL,
+  `q4` double DEFAULT NULL,
+  `q5` double DEFAULT NULL,
+  `q6` double DEFAULT NULL,
+  `q7` double DEFAULT NULL,
+  `q8` double DEFAULT NULL,
+  `q9` double DEFAULT NULL,
+  `q10` double DEFAULT NULL,
+  `q11` double DEFAULT NULL,
+  `q12` double DEFAULT NULL,
+  `qtotal` double DEFAULT NULL,
+  `dateEreqNeedsToBeIssued` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`procID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table procurementplan.procurementplan
+CREATE TABLE IF NOT EXISTS `procurementplan` (
+  `procurmentID` int(11) NOT NULL AUTO_INCREMENT,
+  `ProjectName` varchar(50) DEFAULT NULL,
+  `UnitName` varchar(50) DEFAULT NULL,
+  `ProjectID` varchar(50) DEFAULT NULL,
+  `ProjectManager` varchar(50) DEFAULT NULL,
+  `HeadofUnit` varchar(50) DEFAULT NULL,
+  `Year` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`procurmentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
