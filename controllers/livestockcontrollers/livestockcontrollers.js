@@ -93,14 +93,14 @@ module.exports = {
 	getLiveStockForm: async (req, res) => {
 		try {
 		const livestocks = await LiveStockModel.find({})
-		const memberId = req.params.id
-		const memberState = await MemberStateModel.findById(memberId)
+		// const memberId = req.params.id
+		// const memberState = await MemberStateModel.findById(memberId)
 		const livestockItem = [... new Set(livestocks.map(l => l.name))]
 								.sort()
 			
 
 
-		res.render("liveanimal/createliveanimal", {livestocks: livestocks, memberState: memberState})
+		res.render("liveanimal/createliveanimal", {livestocks: livestocks})
 		}
 		catch(error) {
 			req.flash("error", "There was an error")
