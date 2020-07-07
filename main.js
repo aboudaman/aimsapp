@@ -237,6 +237,7 @@ router.get("/production/:id/livestock/edit", productionController.edit)
 router.get("/production/:id1/:id2/livestock/edit", productionController.editdata)
 router.put("/production/:id1/:id2/update", productionController.update, productionController.redirectView)
 router.get("/graphsapi/:id", productionController.chartApi)
+router.get("/chart", productionController.showChart)
 
 // #### END Production Routes ####
 

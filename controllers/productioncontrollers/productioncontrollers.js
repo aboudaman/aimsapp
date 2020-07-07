@@ -286,7 +286,7 @@ module.exports = {
 		MemberStateModel.find({})
 			.then((memberstates) => {
 
-				res.render("memberstate/graphs", {members: memberstates, url: "graphs"})	
+				res.render("memberstate/graphs", {members: memberstates})	
 			})
 			.catch(error => {
 
@@ -296,22 +296,27 @@ module.exports = {
 	},
 	chartApi: async (req, res, next) => {
 		try {
-		let memberId = req.params.id
-		const memberState = await MemberStateModel.findById(memberId)
-			
-		//## Begin loading SubDocuments ##	
-		const liveAnimalID = memberState.liveanimals
-		const liveAnimalPromises = liveAnimalID.map(_id => {
-		  return LiveStockProductionModel.findOne({ _id })
-		})
-		const liveAnimalsData = await Promise.all(liveAnimalPromises)
-		//## END Loading Sub Documents ##
-		
-//		console.log(liveAnimalsData)
-
-
-		res.json({members: memberState, liveAnimalsData: liveAnimalsData})
-
+			const memberId = req.params.id
+			// console.log("inside edit")
+			// console.log(memberId)
+			const memberState = await MemberStateModel.findById(memberId)
+	
+			const name = memberState.countryName
+	
+			const handleView = (data) => {
+				// console.log(data)
+				// res.render("production/edittable",{memberState: memberState, 
+				// livestocks: data})
+				res.json({livestocks: data})
+			}
+	
+			await LiveStockProductionModel
+								.find({memberState : memberState._id},'livestock quantity year')
+								.populate('memberState','countryName')
+								.exec((function (err, results) {
+									if (err) return next(err);
+									handleView(results)
+								  }))
 		}
 		catch(error) {
 
@@ -419,7 +424,7 @@ module.exports = {
 				memberState: req.body.member
 			}
 
-			console.log(formElements.livestock)
+			// console.log(formElements.livestock)
 			// console.log(formElements.memberState)
 			const member =  await MemberStateModel.find({countryName: formElements.memberState})
 
@@ -439,8 +444,56 @@ module.exports = {
 			// console.log(member)
 			const handleView = (data) => {
 				let result = []
-				console.log(data)
+				let mS = []
+				let qty = []
+				// console.log(data)
 				let d = new Date()
+				let columns = {
+					cols:[], 
+					rows:[]
+				}
+				let tempArr = []
+				for(let i in data) {    
+					let item = data[i];   
+
+					columns.cols.push({ 
+						"label" : item.memberState.countryName
+					})
+					
+					// for(let i=0; i<columns.cols.length; i++) {
+					tempArr[i] = item.quantity
+					// console.log(i)
+
+					if (i == 8) {
+						columns.rows.push(tempArr)
+						// columns.rows = tempArr
+					}
+					// console.log(tempArr)
+					// }
+				}
+
+			// data.forEach(obj => {
+			// 	let item = data[i];   
+				
+			// 	columns.cols.push({ 
+			// 		"label" : obj.memberState.countryName
+			// 	});
+
+
+			// })
+
+				// data.forEach(obj => {
+
+				// 	result.push([
+				// 		// obj.memberState.countryName,
+				// 		obj.livestock,
+				// 		obj.quantity,
+				// 		// year: new Date(obj.year).getFullYear()
+				// 		new Date(obj.year)
+				// 	])
+
+				// })
+
 				data.forEach(obj => {
 					result.push({
 						memberState: obj.memberState.countryName,
@@ -449,11 +502,51 @@ module.exports = {
 						// year: new Date(obj.year).getFullYear()
 						year: new Date(obj.year)
 					})
+					mS.push(obj.memberState.countryName)
+					qty.push(obj.quantity)
+
 
 				})
+
+
+
+				// data.forEach(obj => {
+				// 	result.push([
+				// 		new Date(obj.year), obj.memberState.countryName
+
+				// 	])
+				// })
+				// console.log(result)
+				// console.log(mS)
+				// console.log(qty)
+				// console.log(columns)
+				
+
+
+
+				var outObject = result.reduce(function(a, e) {
+					// GROUP BY estimated key (estKey), well, may be a just plain key
+					// a -- Accumulator result object
+					// e -- sequentally checked Element, the Element that is tested just at this itaration
+				  
+					// new grouping name may be calculated, but must be based on real value of real field
+					let estKey = (e['memberState']); 
+				  
+					(a[estKey] ? a[estKey] : (a[estKey] = null || [])).push(e);
+					return a;
+				  }, {});
+				
+				  const gDate = result.reduce(function(a, e) {
+					let estKey = (e['year']); 
+					(a[estKey] ? a[estKey] : (a[estKey] = null || [])).push(e);
+					return a;
+				  }, {})
+
+				  console.log(gDate)
 				// console.log(result)
 				// console.log(data)
-				res.json({data: result})
+				// console.log(outObject)
+				res.json({data1: outObject, data2: result, data3: gDate})
 				// res.render("production/edittable",{memberState: memberState, 
 				// livestocks: data})
 			}
@@ -478,7 +571,9 @@ module.exports = {
 					// Populate MemberState Field and Pick the Country Name
 					.populate('memberState countryName')
 					.where({livestock: formElements.livestock, indicator:formElements.indicator})
+					.sort({year: 1})
 					.exec((function (err, results) {
+						// console.log('sorted', results)
 						if (err) return next(err);
 						handleView(results)
 			}))

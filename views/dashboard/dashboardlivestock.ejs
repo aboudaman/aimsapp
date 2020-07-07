@@ -59,7 +59,7 @@
                     <%- include("../submenu/admin_sadc") -%>
                     
                     <div class="container-fluid">
-                        <div class="row">
+                        <div class="row" style="margin-top: 45px;">
                             <div class="col-md-4">
                                 <form>
                                     <div class="left-bar">
@@ -193,7 +193,7 @@
                                                 </div>
                                             </div>
                                             <!-- End Accordion -->
-                                            <button type="submit" onclick="displayLoader()" class="btn button btn-primary">Submit</button>
+                                            <button style="margin-top: 30px;" type="submit" onclick="displayLoader()" class="btn button btn-primary">Run Report</button>
                                     </div>
                                 </form>
                             </div>
@@ -206,14 +206,14 @@
                                         <!-- Add Graph Menus -->
                                         <ul class="nav nav-pills mb-3 float-right" id="pills-tab" role="tablist">
                                             <li class="nav-item">
+                                                <a class="nav-link active" id="pills-schart-tab" 
+                                                data-toggle="pill" href="#pills-schart" role="tab" aria-controls="pills-schart" aria-selected="false">
+                                                    <img src="/images/chart.png" style="width: 40px; height: 40px;"class="rounded" alt="Bar Chart"></a>
+                                            </li>
+                                            <li class="nav-item">
                                             <a class="nav-link" id="pills-bchart-tab" 
                                             data-toggle="pill" href="#pills-bchart" role="tab" aria-controls="pills-bchart" aria-selected="true">
                                                 <img src="/images/Pie-chart-icon.png" style="width: 40px; height: 40px;"class="rounded" alt="Pie Chart"></a>
-                                            </li>
-                                            <li class="nav-item">
-                                            <a class="nav-link" id="pills-schart-tab" 
-                                            data-toggle="pill" href="#pills-schart" role="tab" aria-controls="pills-schart" aria-selected="false">
-                                                <img src="/images/chart.png" style="width: 40px; height: 40px;"class="rounded" alt="Bar Chart"></a>
                                             </li>
                                             <li class="nav-item">
                                             <a class="nav-link" id="pills-lgraph-tab" 
@@ -230,6 +230,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <!-- <div class="col"><div id="barArea">Bar Here</div></div> -->
+                                    <!-- <div class="col"><div id="pieArea">Pie Here</div></div> -->
+                                </div>
+                                <div class="row">
                                     <div class="col">
                                             <div class="spinner-border text-primary row justify-content-center" id="loader" 
                                             role="status" style="display: none; margin-left: 50%;">
@@ -244,25 +248,23 @@
                                             There is no data found.  Please try another query. 
                                         </div>
                                         <div class="tab-content" id="pills-tabContent">
-                                            
+                                            <div class="tab-pane fade show active" id="pills-schart" 
+                                            role="tabpanel" aria-labelledby="pills-schart">
+                                                <canvas id="barArea"></canvas>
+                                            </div>
                                             <div class="tab-pane fade" id="pills-bchart" 
                                                 role="tabpanel" aria-labelledby="pills-bchart-tab">
-                                                <h6>Percentage Livestock Slaughtered</h6>
-                                                    <div id="pieArea" style="width: 600px; height: 400px;">Pie Here</div>
+                                                <!-- <h6>Percentage Livestock Slaughtered</h6> -->
+                                                    <div id="pieArea"></div>
                                             </div>
-                                            <div class="tab-pane fade" id="pills-schart" 
-                                                role="tabpanel" aria-labelledby="pills-schart">
-                                                    <div id="barArea" style="width: 600px; height: 400px;">Bar Here</div>
-                                            </div>
-                                            <div class="tab-pane fade show active" id="pills-lgraph" 
+                                            <div class="tab-pane fade show" id="pills-lgraph" 
                                                 role="tabpanel" aria-labelledby="pills-lgraph">
                                                 <!-- <h6>Cattle Birth Numbers</h6> -->
-                                                <div id="lineArea" style="width: 600px; height: 400px;"></div>
+                                                <canvas id="lineArea"></canvas>
                                             </div>
                                             <div class="tab-pane fade" id="pills-dtable" 
                                                 role="tabpanel" aria-labelledby="pills-dtable-tab">
-                                                <div id="tablediv" style="width: 600px; height: 400px;">Data Table Here</div>
-                                            
+                                                <div id="tableArea" style="width: 600px; height: 600px;">Data Table Here</div>
                                             </div>
                                         </div>
                                     </div>
@@ -271,543 +273,872 @@
                     
                         </div>
                     </div>
+                    <!-- <canvas id="myChart"></canvas> -->
+                    <!-- <div id="testChart" style="width: 600px; height: 500px;"></div> -->
                      
 <script>
+// ***********************************************
 
-    function displayLoader() {
+
+
+// ************************************************
+
+
+function displayLoader() {
     loader.style.display = "block"
 }
+// *************************
+// ****************************
+
+
+// Function to generate a random color
+function getRandomColor() {
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// #### START DATA TABLE AREA ####
+
+// const drawTable = (data3) => {
+
+//     // *************************************
+// //     console.log('data 3', data3)
+// // am4core.useTheme(am4themes_animated);
+
+// // Source data
+// // var data = [
+// //   { device: "dev1", date: new Date(2018, 0, 1), value: 450 },
+// //   { device: "dev2", date: new Date(2018, 0, 1), value: 362 },
+// //   { device: "dev3", date: new Date(2018, 0, 1), value: 699 },
+  
+// //   { device: "dev1", date: new Date(2018, 0, 2), value: 269 },
+// //   { device: "dev2", date: new Date(2018, 0, 2), value: 450 },
+// //   { device: "dev3", date: new Date(2018, 0, 2), value: 841 },
+  
+// //   { device: "dev1", date: new Date(2018, 0, 3), value: 700 },
+// //   { device: "dev2", date: new Date(2018, 0, 3), value: 358 },
+// //   { device: "dev3", date: new Date(2018, 0, 3), value: 698 }
+// // ];
+
+// var data = data3
+
+// // Create chart instance
+// var chart = am4core.create("testChart", am4charts.XYChart);
+
+// // Add data
+// // chart.data = data;
+// let tData = []
+
+// // Add data pre-processor
+// // chart.events.on("beforedatavalidated", function(ev) {
+// //   var source = ev.target.data;
+// //   var dates = {};
+// //   var data = [];
+// //   for(var i = 0; i < source.length; i++) {
+// //     var row = source[i];
+// //     if (dates[row.year] == undefined) {
+// //       dates[row.year] = {
+// //         date: row.year
+// //       };
+// //       data.push(dates[row.year]);
+// //     }
+// //     dates[row.year][source[i].livestock] = row.quantity;
+// //   }
+// //   chart.data = data;
+// //   tData.push(data)
+
+// // });
+// const validate = () => {
+//     var source = data;
+//   var dates = {};
+//   var data = [];
+//   for(var i = 0; i < source.length; i++) {
+//     var row = source[i];
+//     if (dates[row.year] == undefined) {
+//       dates[row.year] = {
+//         date: row.year
+//       };
+//       data.push(dates[row.year]);
+//     }
+//     dates[row.year][source[i].livestock] = row.quantity;
+//   }
+//   chart.data = data;
+//   tData.push(data)
+// }
+// validate()
+// // Create axes
+// var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+// dateAxis.renderer.grid.template.location = 0;
+// dateAxis.renderer.minGridDistance = 30;
+
+// var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// // Create series
+// function createSeries(field, name) {
+//   var series = chart.series.push(new am4charts.LineSeries());
+//   series.dataFields.valueY = field;
+//   series.dataFields.dateX = "date";
+//   series.name = name;
+//   series.tooltipText = "{dateX}: [b]{valueY}[/]";
+//   series.strokeWidth = 2;
+  
+//   var bullet = series.bullets.push(new am4charts.CircleBullet());
+//   bullet.circle.stroke = am4core.color("#fff");
+//   bullet.circle.strokeWidth = 2;
+  
+//   return series;
+// }
+
+// console.log('chart data', tData)
+
+// createSeries("goat", "Goat");
+// createSeries("cattles", "Cattles");
+// createSeries("dev3", "Device #3");
+
+// chart.legend = new am4charts.Legend();
+// chart.cursor = new am4charts.XYCursor();
+
+
+    // *************************************
+
+    // let data = ""
+    // let dateArr = []
+    // let keys = []
+    // let count = 0;
+    // const tempCol = Object.keys(data3)
+    // let t1 = []
+    // let t2 = []
+    // let dates = []
+    // let gui = {
+    //     labels:[],
+    //     datasets: [{
+    //         label: '',
+    //         backgroundColor: 'rgb(255, 99, 132)',
+    //         borderColor: 'rgb(255, 99, 132)',
+    //         data: []
+
+    //     }]
+    // }
+
+    // let tDates = []
+    // let tempData = []
+    // console.log(data3)
+    // // let chart = ""
+    // // const colors = ["red","blue","orange","green", "purple"]
+    // // Bar chart here
+
+    // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    // var ctx = document.getElementById('tableArea').getContext('2d');
+
+    // // data: {
+    // //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    // //     datasets: [{
+    // //         label: 'My First dataset',
+    // //         backgroundColor: 'rgb(255, 99, 132)',
+    // //         borderColor: 'rgb(255, 99, 132)',
+    // //         data: [0, 10, 5, 2, 20, 30, 45]
+    // //     }]
+    // // },
+    // let c=0
+    //    for (let i in data3) {
+               
+    //         let tempDates = []
+    //             // console.log('data json', data3)
+    //         // console.log('result in loop', data1JSON[i][0].memberState)
+    //         // console.log(result[i])
+    //         // t1.push({
+    //         //         label: '',
+    //         //         backgroundColor: getRandomColor(),
+    //         //         borderColor: 'rgb(255, 99, 132)',
+    //         //         data:[]
+    //         //     })
+
+    //         t2.push({dates:[]})
+
+            
+            
+    //         data3[i].forEach((ele, idx) => {
+                
+    //             // console.log('ele', ele.memberState)
+    //             // console.log('tempCol[i]', tempCol[count])
+    //             // console.log(ele.memberState + ' ' + ele.livestock)
+    //             // t1[label].push('hwllo')
+    //             // t1.push({label: ele.memberState + ' ' + ele.livestock})
+    //             // t1.push({backgroundColor: getRandomColor()})
+    //             t1.push({
+    //                 label: ele.memberState + ' ' + ele.livestock,
+    //                 backgroundColor: getRandomColor(),
+    //                 borderColor: 'rgb(255, 99, 132)',
+    //                 data: [ele.quantity]
+    //                 // data:[{x: new Date(ele.year).getFullYear(), y: ele.quantity}]
+    //             })
+
+    //             // data: [{x:'2016-12-25', y:20}, {x:'2016-12-26', y:10}]
+    //             // t1[c].data.push(ele.quantity)
+    //             tempData.push(ele.quantity)
+    //             tempDates.push(new Date(ele.year).getFullYear())
+    //             // dates.push(new Date(ele.year).getFullYear())
+    //             tDates.push(new Date(ele.year).getFullYear())
+    //             // t1[idx].data.unshift(22)
+               
+    //             gui.labels.push(ele.year)
+    //             gui.datasets.push({
+    //                 label: 'hello',
+    //                 backgroundColor: 'rgb(255, 99, 132)',
+    //                 borderColor: 'rgb(255, 99, 132)',
+    //                 data: [ele.quantity]
+    //             })
+    //         })
+    //         c = c + 1
+    //         // t1[count].data = tempData
+
+    //         t2[count].dates = tempDates
+            
+    //         // gui.datasets.push({datasets: tempData})
+    //         // console.log('result in loop',result[i].memberState)
+    //         console.log('count in data 3', count)
+    //         console.log('count C', c)
+            
+    //         // console.log('t2: ', t2)
+    //         // console.log('tempData: ', tempData)
+    //         count = count + 1
+    //         }
+    //     const minDate = tDates.reduce((a,b) => a < b ? a: b)
+    //     const maxDate = tDates.reduce((a,b) => a > b ? a: b)
+    //     console.log('minDate', minDate)
+    //     console.log('maxDate', maxDate)
+
+    //         // t1.forEach(d => console.log(d.data))
+    //         // console.log('GUI', gui)
+    //         // console.log('tDates', tDates)
+    //         console.log('t1 Check in D 3: ', t1)
+
+    //         draw(t1, t2)
+    //         function draw(dataset, dataset2) {
+    //             // console.log('dataset', typeof(t1[0].data))
+    //             // console.log('dataset2', typeof(t2[0].dates))
+    //             // console.log('Object Values', Object.values(t1[0].data))
+    //             let arr = Object.values(t1[0].data)
+    //             let d = []
+    //             // console.log('arr', arr)
+    //             var chart = new Chart(ctx, {
+    //             // The type of chart we want to create
+    //             type: 'bar',
+    //             // The data for our dataset
+    //             // data: gui,
+
+    //             data: {
+    //             // labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'],
+    //             labels: tDates,
+    //             datasets:dataset
+    //             },
+    //             // Configuration options go here
+    //             options: {
+    //     scales: {
+    //         xAxes: [{
+    //             ticks: {
+    //                 min: minDate,
+    //                 max: maxDate
+    //             }
+    //         }]
+    //     }
+    // }
+
+    //             });
+
+    //         }
+
+
+// }
+
+
+// #### END DATA TABLE AREA ####
 
 // Get value of checked box
 // console.log(document.querySelectorAll('[name="member"]')[1].value)
 
-// ###### Bar Chart Start #####
-// Apply chart themes
-// am4core.useTheme(am4themes_animated);
-// am4core.useTheme(am4themes_kelly);
-
-const pieChart = () => {
-    var fieldArrays = [
- [
-  {
-   "timeAxe": "2019-07-26",
-   "fieldArrays": 13
-  },
-  {
-   "timeAxe": "2019-07-27",
-   "fieldArrays": 12
-  },
-  {
-   "timeAxe": "2019-07-28",
-   "fieldArrays": 14
-    },
-  {
-   "timeAxe": "2019-07-29",
-   "fieldArrays": 11
-  },
-  {
-   "timeAxe": "2019-07-30",
-   "fieldArrays": 10
-  },
-  {
-   "timeAxe": "2019-07-31",
-   "fieldArrays": 10
-  },
-  {
-   "timeAxe": "2019-08-01",
-   "fieldArrays": 12
-  },
-  {
-   "timeAxe": "2019-08-02",
-   "fieldArrays": 15
-  },
-  {
-   "timeAxe": "2019-08-03",
-   "fieldArrays": 12
-  },
-  {
-   "timeAxe": "2019-08-04",
-   "fieldArrays": 12
-  }
- ],
- [
-  {
-   "timeAxe": "2019-07-26",
-   "fieldArrays": 29
-  },
-//   {
-//    "timeAxe": "2019-07-27",
-//    "fieldArrays": 30
-//   },
-//   {
-//    "timeAxe": "2019-07-28",
-//    "fieldArrays": 25
-//   },
-//   {
-//    "timeAxe": "2019-07-29",
-//    "fieldArrays": 30
-//   },
-//   {
-//    "timeAxe": "2019-07-30",
-//    "fieldArrays": 30
-//   },
-//   {
-//    "timeAxe": "2019-07-31",
-//    "fieldArrays": 30
-//   },
-//   {
-//    "timeAxe": "2019-08-01",
-//    "fieldArrays": 25
-//   },
-//   {
-//    "timeAxe": "2019-08-02",
-//    "fieldArrays": 22
-//   },
-//   {
-//    "timeAxe": "2019-08-03",
-//    "fieldArrays": 23
-//   },
-//   {
-//    "timeAxe": "2019-08-04",
-//    "fieldArrays": 24
-//   }
-//  ],
-//  [
-//   {
-//    "timeAxe": "2019-07-26",
-//    "fieldArrays": 31
-//   },
-//   {
-//    "timeAxe": "2019-07-27",
-//    "fieldArrays": 45
-//   },
-//   {
-//    "timeAxe": "2019-07-28",
-//    "fieldArrays": 35
-//   },
-//   {
-//    "timeAxe": "2019-07-29",
-//    "fieldArrays": 36
-//   },
-//   {
-//    "timeAxe": "2019-07-30",
-//    "fieldArrays": 43
-//   },
-//   {
-//    "timeAxe": "2019-07-31",
-//    "fieldArrays": 33
-//   },
-//   {
-//    "timeAxe": "2019-08-01",
-//    "fieldArrays": 32
-//   },
-//   {
-//    "timeAxe": "2019-08-02",
-//    "fieldArrays": 33
-//   },
-//   {
-//    "timeAxe": "2019-08-03",
-//    "fieldArrays": 33
-//   },
-//   {
-//    "timeAxe": "2019-08-04",
-//    "fieldArrays": 35
-//   }
- ]
-]
-
-
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
-
-// Create chart instance
-const chart = am4core.create("pieArea", am4charts.XYChart);
-
-
-// Create axes
-const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-dateAxis.renderer.grid.template.location = 0;
-
-
-const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-fieldArrays.forEach(function(fieldArray, index) {
-
-  const series = chart.series.push(new am4charts.LineSeries());
-  series.name = "Series " + (index + 1);
-  series.dataFields.valueY = "fieldArrays";
-  series.dataFields.dateX = "timeAxe";
-  series.data = fieldArray;
-  
-  
-  const bullet = series.bullets.push(new am4charts.CircleBullet());
-});
-
-chart.cursor = new am4charts.XYCursor();
-// Legend
-chart.legend = new am4charts.Legend();
-
-
-
-}
-
-
-
-
 // ###### START Line Chart Area#####
-const lineChart = async (data) => {
-    am4core.useTheme(am4themes_animated);
-    console.log('Inside Line Chart', data)
-    // const fieldArrays = [
-        
-    //         {
-    //         "timeAxe": "2019",
-    //         "fieldArrays": 33
-    //         },
-    //         {
-    //         "timeAxe": "2020",
-    //         "fieldArrays": 35
-    //         }
-        
-    // ]
+const lineChart = async (data1JSON, data2JSON) => {
 
-// Themes begin
-am4core.useTheme(am4themes_animated);
-// Themes end
-
-// Create chart instance
-const chart3 = am4core.create("lineArea", am4charts.XYChart)
-
-// Add data
-chart3.data = data;
-
-    // Add data pre-processorcountryName
-    chart3.events.on("beforedatavalidated", function(ev) {
-        console.log('inside before validated Line Chart')
-        const source = ev.target.data;
-        // Create Empty Object
-        const dates = {};
-        const dReport = []
-        for(var i = 0; i < source.length; i++) {
-            var row = source[i];
-            if (dates[row.year] == undefined) {
-                // Create property date and assing value of year
-            dates[row.year] = {
-                date: row.year
-            };
-            // Adds object dates to the dReport array
-            dReport.push(dates[row.year]);
-            }
-            // Assign a new property to dates and sets its value to 
-            // quantity
-            dates[row.year][row.livestock] = row.quantity;
-            // dates[row.year][row.memberState] = row.quantity;
-        }
-        // console.log('dReport: ', dReport)
-        // ev.target.data = dReport;
-        chart3.data = dReport;
-        run(dReport)
-    });
-
-// Create axes
-const dateAxis = chart3.xAxes.push(new am4charts.DateAxis());  
-dateAxis.renderer.grid.template.location = 0;
-dateAxis.periodChangeDateFormats.setKey("month", "[bold]yyyy");
-
-const valueAxis = chart3.yAxes.push(new am4charts.ValueAxis());
-// console.log('chart3.data: ', chart3.data)
-
-// Create series
-function createSeries(field, name) {
-  var series = chart3.series.push(new am4charts.LineSeries());
-  series.dataFields.valueY = field;
-  series.dataFields.dateX = "date";
-  series.name = name;
-  series.tooltipText = "{date}: [b]{valueY}[/]";
-  series.strokeWidth = 2;
-  
-var bullet = series.bullets.push(new am4charts.CircleBullet());
-bullet.events.on("hit", function(ev) {
-  alert("Clicked on " + ev.target.dataItem.dateX + ": " + ev.target.dataItem.valueY);
-});
-}
-
-const run = (dataR) => {
-    const seriesName = []
-    for (let i=0; i<dataR.length; i++) {
-        const valY = (Object.keys(dataR[i]))[1]
-        if (seriesName.includes(valY) === false) {
-            seriesName.push(valY)
-        }
-        
+    let data = ""
+    let dateArr = []
+    let keys = []
+    let count = 0;
+    const tempCol = Object.keys(data1JSON)
+    let t1 = []
+    let t2 = []
+    let dates = []
+    let gui = {
+        labels:[],
+        datasets: []
     }
-    seriesName.forEach( val => {
-        createSeries(val, val + " series")
-    })
-    
+    let tDates = []
 
-}
+    // console.log(data1JSON)
+    // let chart = ""
+    // const colors = ["red","blue","orange","green", "purple"]
+    // Bar chart here
+
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    var ctx = document.getElementById('lineArea').getContext('2d');
+
+       for (let i in data1JSON) {
+                let tempData = []
+                let tempDates = []
+            // console.log('result in loop', data1JSON[i][0].memberState)
+            // console.log(result[i])
+            // t1.push({
+            //         label: '111',
+            //         backgroundColor: getRandomColor(),
+            //         borderColor: 'rgb(255, 99, 132)',
+            //         data:[]
+            //     })
+            t2.push({dates:[]})
+
+            
+
+            data1JSON[i].forEach(ele => {
+                // console.log('ele', ele.memberState)
+                // console.log('tempCol[i]', tempCol[count])
+                // console.log(ele.memberState + ' ' + ele.livestock)
+                // t1[label].push('hwllo')
+                // t1.push({label: ele.memberState + ' ' + ele.livestock})
+                t1.push({
+                    label: ele.memberState + ' ' + ele.livestock,
+                    backgroundColor: getRandomColor(),
+                    borderColor: 'rgb(255, 99, 132)',
+                    data:[]
+                })
+                tempData.push(ele.quantity)
+                tempDates.push(new Date(ele.year).getFullYear())
+                // dates.push(new Date(ele.year).getFullYear())
+                tDates.push(new Date(ele.year).getFullYear())
+                if (ele.memberState == tempCol[count]) {}
+            })
+            t1[count].data = tempData
+            t2[count].dates = tempDates
+            gui.labels.push({labels: tempDates})
+            gui.datasets.push({datasets: tempData})
+            // console.log('result in loop',result[i].memberState)
+            // console.log('t1: ', t1)
+            // console.log('t2: ', t2)
+            // console.log('tempData: ', tempData)
+            count++
+            }
 
 
-// const run = (dataR) => {
-//     const seriesName = []
-//     for (let i=0; i<dataR.length; i++) {
-//         // console.log('dataR', dataR)
-//         // console.log('DataR 0 object keys: ', (Object.keys(dataR[0]))[1])
-//         const valY = (Object.keys(dataR[i]))[1]
-//         const series = chart3.series.push(new am4charts.LineSeries());
-//         if (seriesName.includes(valY) === false) {
-//             seriesName.push(valY);
-//         }
+            // t1.forEach(d => console.log(d.data))
+            // console.log(gui)
+            // console.log(tDates)
 
-//         console.log('chart3 data ', chart3.data)
-//         // series.name = chart3.data[i].livestock;
-//         if (seriesName[i] !== null) {
-//             series.name = seriesName[i]
-//         }
-        
-//         series.dataFields.valueY =  valY
-//         series.dataFields.dateX = "date";
-//         series.data = chart3.data;
-//         // series.tooltipText = "{name}: [bold]{valueY}[/]";
-//         const bullet = series.bullets.push(new am4charts.CircleBullet());
-//     }
-//     console.log('Series Name Length', seriesName.length)
-// }
 
-// for (let i=0; i<chart3.data.length; i++) {
-//     console.log('CHART3 DATA', chart3.data)
-//     const series = chart3.series.push(new am4charts.LineSeries());
-//     series.name = chart3.data[i].livestock + ' ' + chart3.data[i].memberState;
-//     series.dataFields.valueY = "quantity";
-//     series.dataFields.dateX = "year";
-//     series.data = chart3.data;
-//     // series.tooltipText = "{name}: [bold]{valueY}[/]";
-//     const bullet = series.bullets.push(new am4charts.CircleBullet());
-// }
+            draw(t1, t2)
+            function draw(dataset, dataset2) {
+                // console.log('dataset', typeof(t1[0].data))
+                // console.log('dataset2', typeof(t2[0].dates))
+                // console.log('Object Values', Object.values(t1[0].data))
+                // let arr = Object.values(t1[0].data)
+                let d = []
 
-chart3.cursor = new am4charts.XYCursor();
 
-// Legend
-chart3.legend = new am4charts.Legend();
+                // console.log('arr', arr)
 
-}
+
+
+                var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+                // The data for our dataset
+                data: {
+                // labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'],
+                labels: tDates,
+                datasets:dataset
+                },
+
+                //     datasets: [{
+                //         label: 'My First dataset',
+                //         backgroundColor: 'rgb(255, 99, 132)',
+                //         borderColor: 'rgb(255, 99, 132)',
+                //         // data: [0, 10, 5, 2, 20, 30, 45],
+                //         data: t1[0].data,
+                //     },
+                //     {
+                //         label: 'My Second dataset',
+                //         backgroundColor: 'blue',
+                //         borderColor: 'rgb(255, 99, 132)',
+                //         data: [1000, 2220, 58880, 20888, 67770, 9000, 10005],
+                //     }
+
+                // ]
+                // },
+
+                // Configuration options go here
+                options: {
+                    title: {
+            display: true,
+            text: 'Annual Livestock Report per SADC Member State'
+        }
+                    }
+                });
+
+            }
+
+        }
+
 
 // ###### END Line Chart Area ######
 // ***********************************************************************************************
 
 // #### Start Bar Chart ####
-const barChart = (data) => {
-    console.log('Inside Bar Chart: ' + data)
-    am4core.useTheme(am4themes_animated);
-    // Create chart instance
-    var chart = am4core.create("barArea", am4charts.XYChart);
+const barChart = async (data1JSON, data2JSON) => {
+    let data = ""
+    let dateArr = []
+    let keys = []
+    let count = 0;
+    const tempCol = Object.keys(data1JSON)
+    let t1 = []
+    let t2 = []
+    let dates = []
+    let gui = {
+        labels:[],
+        datasets: [{
+            label: '',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: []
 
-    chart.marginRight = 400;
-    const dataReport = [];
+        }]
+    }
 
-    // Add data
-    chart.data = data;
+    let tDates = []
 
-    const dReport = []
+    // console.log(data1JSON)
+    // let chart = ""
+    // const colors = ["red","blue","orange","green", "purple"]
+    // Bar chart here
 
-    // Add data
-    // chart.data = [{
-    // "country": "Botswana",
-    // "Cattle": 501.9,
-    // "Goat": 250
-    // // "sales": 199
-    // }]
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    var ctx = document.getElementById('barArea').getContext('2d');
 
-    // Add data pre-processorcountryName
-    chart.events.on("beforedatavalidated", function(ev) {
-        console.log('inside before validated Bar Chart')
-        const source = ev.target.data;
-        // Create Empty Object
-        const dates = {};
-        for(var i = 0; i < source.length; i++) {
-            var row = source[i];
-            // console.log('EV target: ' + ev.target.data)
-            // console.log('row of source: ' + source[i].memberState)
+    // data: {
+    //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    //     datasets: [{
+    //         label: 'My First dataset',
+    //         backgroundColor: 'rgb(255, 99, 132)',
+    //         borderColor: 'rgb(255, 99, 132)',
+    //         data: [0, 10, 5, 2, 20, 30, 45]
+    //     }]
+    // },
+    
+       for (let i in data1JSON) {
+                let tempData = []
+                let tempDates = []
+                // console.log('data json', data1JSON)
+            // console.log('result in loop', data1JSON[i][0].memberState)
+            // console.log(result[i])
+
+            // t1.push({
+            //         label: '',
+            //         backgroundColor: getRandomColor(),
+            //         borderColor: 'rgb(255, 99, 132)',
+            //         data:[]
+            //     })
+
+            t2.push({dates:[]})
+
             
-            if (dates[row.year] == undefined) {
-                // Create property date and assing value of year
-            dates[row.year] = {
-                date: row.year
-            };
-            // Adds object dates to the dReport array
-            dReport.push(dates[row.year]);
+            let c=0
+            data1JSON[i].forEach((ele, idx) => {
+                
+                // console.log('ele', ele.memberState)
+                // console.log('tempCol[i]', tempCol[count])
+                // console.log(ele.memberState + ' ' + ele.livestock)
+                // t1[label].push('hwllo')
+                // t1.push({label: ele.memberState + ' ' + ele.livestock})
+                // t1.push({backgroundColor: getRandomColor()})
+                t1.push({
+                    label: ele.memberState + ' ' + ele.livestock,
+                    backgroundColor: getRandomColor(),
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: []
+                    // data:[{x: new Date(ele.year).getFullYear(), y: ele.quantity}]
+                })
+
+                // data: [{x:'2016-12-25', y:20}, {x:'2016-12-26', y:10}]
+                // t1[c].data.push(ele.quantity)
+                tempData.push(ele.quantity)
+                tempDates.push(new Date(ele.year).getFullYear())
+                // dates.push(new Date(ele.year).getFullYear())
+                tDates.push(new Date(ele.year).getFullYear())
+                // t1[idx].data.unshift(22)
+                c = c + 1;
+                gui.labels.push(ele.year)
+                gui.datasets.push({
+                    label: 'hello',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [ele.quantity]
+                })
+            })
+
+            t1[count].data = tempData
+
+            t2[count].dates = tempDates
+            
+            // gui.datasets.push({datasets: tempData})
+            // console.log('result in loop',result[i].memberState)
+            // console.log('count', count)
+            
+            // console.log('t2: ', t2)
+            // console.log('tempData: ', tempData)
+            count = count + 1
             }
-            // Assign a new property to dates and sets its value to 
-            // quantity
-            dates[row.year][row.livestock] = row.quantity;
-            // dates[row.year][row.memberState] = row.quantity;
+        const minDate = tDates.reduce((a,b) => a < b ? a: b)
+        const maxDate = tDates.reduce((a,b) => a > b ? a: b)
+        // console.log('minDate', minDate)
+        // console.log('maxDate', maxDate)
+
+            // t1.forEach(d => console.log(d.data))
+            // console.log('GUI', gui)
+            // console.log('tDates', tDates)
+            // console.log('t1 Check: ', t1)
+
+            draw(t1, t2)
+            function draw(dataset, dataset2) {
+                // console.log('dataset', typeof(t1[0].data))
+                // console.log('dataset2', typeof(t2[0].dates))
+                // console.log('Object Values', Object.values(t1[0].data))
+                let arr = Object.values(t1[0].data)
+                let d = []
+
+
+                // console.log('arr', arr)
+
+
+
+                var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+                // The data for our dataset
+                // data: gui,
+
+                data: {
+                // labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'],
+                labels: tDates,
+                datasets:dataset
+                },
+
+                //     datasets: [{
+                //         label: 'My First dataset',
+                //         backgroundColor: 'rgb(255, 99, 132)',
+                //         borderColor: 'rgb(255, 99, 132)',
+                //         // data: [0, 10, 5, 2, 20, 30, 45],
+                //         data: t1[0].data,
+                //     },
+                //     {
+                //         label: 'My Second dataset',
+                //         backgroundColor: 'blue',
+                //         borderColor: 'rgb(255, 99, 132)',
+                //         data: [1000, 2220, 58880, 20888, 67770, 9000, 10005],
+                //     }
+
+                // ]
+                // },
+
+                // Configuration options go here
+                options: {
+        scales: {
+            xAxes: [{
+                ticks: {
+                    min: minDate,
+                    max: maxDate
+                }
+            }]
+        },                   title: {
+            display: true,
+            text: 'Annual Livestock Report per SADC Member State'
         }
-        console.log(dReport)
-        ev.target.data = dReport;
-        chart.data = dReport;
-    });
+    }
 
 
-    // Create axes
-    var categoryAxis = chart.xAxes.push(new am4charts.DateAxis());
-    // categoryAxis.dataFields.category = "date";
-    // categoryAxis.title.text = "Member States";
-    categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.renderer.minGridDistance = 20;
-    categoryAxis.periodChangeDateFormats.setKey("month", "[bold]yyyy");
-
-    var  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.title.text = "Annual Total";
-
-    // Create series
-    var series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueY = "cattles";
-    series.dataFields.dateX = "date";
-    series.name = "Cattles";
-    series.tooltipText = "{name}: [bold]{valueY}[/]";
-    series.stacked = true;
-
-    // var series2 = chart.series.push(new am4charts.ColumnSeries());
-    // series2.dataFields.valueY = "Goat";
-    // series2.dataFields.categoryX = "country";
-    // series2.name = "Goat";
-    // series2.tooltipText = "{name}: [bold]{valueY}[/]";
-    // series2.stacked = true;
-
-    // var series3 = chart.series.push(new am4charts.ColumnSeries());
-    // series3.dataFields.valueY = "sales";
-    // series3.dataFields.categoryX = "country";
-    // series3.name = "Sales";
-    // series3.tooltipText = "{name}: [bold]{valueY}[/]";
-    // series3.stacked = true;
-
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
 
 
+                });
+
+            }
+
+
+
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  
+    // google.charts.setOnLoadCallback(drawChart.bind(this, data1JSON, data2JSON));
+    // // google.charts.setOnLoadCallback(drawChart);
+    // function drawChart(result, result2) {
+    //     data = new google.visualization.DataTable()
+    //     // console.log(result)
+    //     // console.log('length', result.length)
+    //     const tempCol = Object.keys(result)
+    //     console.log(tempCol)
+    //     let t1 = []
+    //     let t2 = []
+    //     let count = 0;
+
+    //     data.addColumn('date', 'Year')
+    //     for (val of tempCol) {
+    //         data.addColumn('number', val)
+    //     }
+
+    // //     data.addColumn('date', 'Year')
+    // //     data.addColumn('number', 'botswana')
+    // //     // for (let ele of result.data) {
+            
+    // //     // }
+    
+    // //     // data.addColumn({ type: 'string', role: 'tooltip' })
+    // //     // data.addColumn({ type: 'string', role: 'annotation' })
+    // //     // data.addColumn({ type: 'string', role: 'style' }
+
+    // // result2.forEach(elem => {
+    // //     console.log(elem)
+    // //     if ('memberState' in elem) { console.log('YES')}
+    // //     console.log('keys', keys)
+    // //     if (keys.indexOf(elem.memberState)) {
+
+    // //     }
+
+    // // })
+    // // data.addRows(6);
+    // //     for (const val of result2) {
+    // //         // console.log(result2[val].quantity)
+    // //         // console.log(val.year)
+    // //         // console.log(val)
+
+    // //         data.setCell(0, 0, new Date('2012'))
+    // //         data.setCell(0, 1, 200)
+    // //         data.setCell(0, 2, 300)
+            
+
+
+    // //         // data.addRow([
+    // //         //     new Date(val.year),
+    // //         //     val.quantity
+
+    // //         // ])
+    // // //         // data.addRow([new Date(val.year), val.quantity, 
+    // // //         //     'Year: ' + 
+    // // //         //         new Date(val.year).getFullYear() +
+    // // //         //          ', Total: '+ val.quantity, ''
+    // // //         //         //  +getRandomColor()
+                    
+    // // //         //         ]);
+
+    // //         // dateArr.push(val.year)
+    // //     }
+    // //     // for (let el of dateArr) {
+    // //     //     console.log('date array:', el)
+    //     // }
+    //     // const minDate = dateArr.reduce((a,b) => a < b ? a: b)
+    //     // const maxDate = dateArr.reduce((a,b) => a > b ? a: b)
+
+    // //     // console.log('min Date:', minDate, ' ', dateArr.length)
+    // //     // console.log('max Date:', maxDate, ' ', dateArr.length)
+    // // //     let data = []
+    // // //     let header = ['Year', 'Quantity', { role: 'style' }]
+    // // //     data.push(header)
+    // // //     for (const val of result.data) {
+    // // //         let temp = []
+    // // //         temp.push(new Date(val.year).getFullYear())
+    // // //         temp.push(val.quantity)
+    // // //         // temp.push(val.memberState)
+    // // //         temp.push(getRandomColor())
+    // // //         data.push(temp)
+    // // //         // console.log(new Date(val.year).getFullYear())
+    // // //         // console.log(val.quantity)
+    // // //         // console.log(val.memberState)
+    // // //     }
+
+    // // //     let chartData = google.visualization.arrayToDataTable(data)
+
+    //     const options = {
+    //         'width': 900,
+    //         'height': 600,
+    //         'hAxis': {
+    //             'title': 'Year',
+    //             'format': 'yyyy',
+    //             //  'ticks': [new Date(minDate), new Date(maxDate)] 
+    //         },          
+    //         'vAxis': {
+    //             'title': 'Quantity'
+    //         // minValue: 0,
+    //         // ticks: [0]
+    //       },
+    //     //   series: [{color: 'blue', visibleInLegend: true}, {color: 'red', visibleInLegend: false}]
+    //       series: {
+    //         0: {
+    //             visibleInLegend: true
+    //         }
+    //       },
+    //       isStacked: true
+
+    //     //   chart: {
+    //     //     title: 'Company Performance',
+    //     //     subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+    //     //   }
+    //     }
+
+    //     // Draw Chart
+
+    // //     chart = new google
+    // //     .visualization
+    // //     .ColumnChart(document.getElementById("barArea"))
+    // //   chart.draw(data, options);
+
+    // }
 
 
 }
+
+  
+
+
 // #### END Bar Chart ####
 
 // *********************************************************************************************************
 
 // #### START PIE CHART ####
 // Create chart instance
-var chart2 = am4core.create("pieArea", am4charts.PieChart);
+const createPieChart = (dataJSON) => {
+    let data = ""
+    let chart = ""
 
-// Add data
-// chart2.data = [{
-//   "country": "Botswana",
-//   "BirthNumbers": 501.9
-// }, {
-//   "country": "South Africa",
-//   "BirthNumbers": 301.9
-// }, {
-//   "country": "Zambia",
-//   "BirthNumbers": 201.1
-// }, {
-//   "country": "Eswatini",
-//   "BirthNumbers": 165.8
-// }
-// ];
+    // Load the Visualization API and the piechart package.
+    // google.charts.load('current', {'packages':['corechart']});
 
-// // Add and configure Series
-// var pieSeries = chart2.series.push(new am4charts.PieSeries());
-// pieSeries.dataFields.value = "BirthNumbers";
-// pieSeries.dataFields.category = "country";
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart.bind(this, dataJSON))
+    
+    function drawChart(result) {
+        // console.log('pie chart',result)
+      // Create our data table.
+      data = new google.visualization.DataTable();
+      data.addColumn('string', 'Topping');
+      data.addColumn('number', 'Slices');
+    //   // for (let i=1; i<=10; i++) {
+    //   //   data.addRow(["one " + ob, i]);
+    //   // }
+      for (const val of result.data2) {
+        //   console.log(val)
+            data.addRow([val.livestock + ' ' 
+            + val.memberState + ' '
+            + new Date(val.year).getFullYear(), val.quantity]);
+      }
 
-// // Add a legend
-// chart2.legend = new am4charts.Legend();
+    // // Set chart options
+      const options = {'title':'Annual Livestock Report Per SADC Member State',
+              'width':650,
+              'height':500
+      };
+
+    //   // Instantiate and draw our chart, passing in some options.
+      chart = new google.visualization.PieChart(document.getElementById('pieArea'));
+      google.visualization.events.addListener(chart, 'select', selectHandler);
+      chart.draw(data, options);
+    }
+
+    function selectHandler() {
+      const selectedItem = chart.getSelection()[0];
+      const value = data.getValue(selectedItem.row, 0);
+      alert('You user selected ' + value);
+    }
+
+
+}
 
 
 // #### END PIE CHART ####
-                        // Checks if button is pressed
-                        document.body.addEventListener("submit", async function(event) {
-                           
-                           
-                            event.preventDefault()
+// Checks if button is pressed
+document.body.addEventListener("submit", async function(event) {
+    
+    
+    event.preventDefault()
 
-                            // ### Validation Start
+    const form = event.target
+    // console.log(form)
+    // Clear Page Display Area
+    document.getElementById("nodata").style.display = "none"
+    document.getElementById("nodata2").style.display = "none"
+
+    //let checkFlag = document.querySelector("input[name=indicator]:checked").value
+
+    //CheckFlag = A, Quantity...checkFlag = B, Year
+    // console.log(form.member)
+    const result = await fetch("/production/analytics", {
+
+        method: "POST",
+        body: new URLSearchParams([...(new FormData(form))])
+    })
+        .then((response) => response.json())
+        .then(result => {
+            // console.log('Result: ', result)
+        loader.style.display = "none"
+        // barSelect.classList.add("active")
+        //console.log(result.data)
+        // result.data.forEach(d => {
+        //         d.quantity = +d.quantity
+        //     })
+        // Checks if query returns data
+        if (result.data1.length == 0 || result.data2.length == 0) {
+            // chart1.dispose()
+            // chart2.dispose()
+            document.getElementById("nodata2").style.display = "block"
+        } else {
+            document.getElementById("nodata2").style.display = "none"
+            // console.log(result.data)
+            createPieChart(result)
+            lineChart(result.data1, result.data2)
+            barChart(result.data1, result.data2)
+            // drawTable(result.data2)
+           
+            
+            // drawPie(result.data)
+            // drawBar(result.data)
+        }
 
 
-                            // ### END Validation
-                            
-                            // chart1.dispose()
-                            // chart2.dispose()
-                            // console.log(chart1)
-                    
-                            const form = event.target
-                            // console.log(form)
-                            // Clear Page Display Area
-                            document.getElementById("nodata").style.display = "none"
-                            document.getElementById("nodata2").style.display = "none"
-                    
-                            //let checkFlag = document.querySelector("input[name=indicator]:checked").value
-                    
-                            //CheckFlag = A, Quantity...checkFlag = B, Year
-                            // console.log(form.member)
-                            const result = await fetch("/production/analytics", {
-                    
-                                method: "POST",
-                                body: new URLSearchParams([...(new FormData(form))])
-                            })
-                                .then((response) => response.json())
-                                .then(result => {
-                                    console.log('Result: ' + result)
-                                loader.style.display = "none"
-                                // barSelect.classList.add("active")
-                                //console.log(result.data)
-                                result.data.forEach(d => {
-                                        d.quantity = +d.quantity
-                                    })
-                                // Checks if query returns data
-                                if (result.data.length == 0) {
-                                    // chart1.dispose()
-                                    // chart2.dispose()
-                                    document.getElementById("nodata2").style.display = "block"
-                                } else {
-                                    document.getElementById("nodata2").style.display = "none"
-                                    am4core.disposeAllCharts();
-                                    lineChart(result.data)
-                                    barChart(result.data)
-                                    pieChart()
-                                   
-                                    // drawPie(result.data)
-                                    // drawBar(result.data)
-                                }
-                                    // console.log(result.data)
-                    
-                    
-                            })
-                            .catch(error => console.log(error)) 
-                        })
-                    
-                            //#### END Function to create Analytics ####
-                    
-                        // Start Accordion Script
-                        $(document).ready(function(){
-                            // Add minus icon for collapse element which is open by default
-                            $(".collapse.show").each(function(){
-                                // $(this).prev(".card-header").find(".plus").addClass("fa-minus").removeClass("fa-plus");
-                                $(this).prev(".card-header").find(".plus").toggleClass("bar")
-                    
-                            });
-                            
-                            // Toggle plus minus icon on show hide of collapse element
-                            $(".collapse").on('show.bs.collapse', function(){
-                                // $(this).prev(".card-header").find(".plus").removeClass("fa-plus").addClass("fa-minus");
-                                $(this).prev(".card-header").find(".plus").toggleClass("bar");
-                            }).on('hide.bs.collapse', function(){
-                                // $(this).prev(".card-header").find(".plus").removeClass("fa-minus").addClass("fa-plus");
-                                $(this).prev(".card-header").find(".plus").toggleClass("bar");
-                            });
-                    
-                        });
+    })
+    .catch(error => console.log(error)) 
+})
 
-                        
-                    
+    //#### END Function to create Analytics ####
+
+// Start Accordion Script
+$(document).ready(function() {
+    // Add minus icon for collapse element which is open by default
+    $(".collapse.show").each(function(){
+        // $(this).prev(".card-header").find(".plus").addClass("fa-minus").removeClass("fa-plus");
+        $(this).prev(".card-header").find(".plus").toggleClass("bar")
+
+    });
+    
+    // Toggle plus minus icon on show hide of collapse element
+    $(".collapse").on('show.bs.collapse', function(){
+        // $(this).prev(".card-header").find(".plus").removeClass("fa-plus").addClass("fa-minus");
+        $(this).prev(".card-header").find(".plus").toggleClass("bar");
+    }).on('hide.bs.collapse', function(){
+        // $(this).prev(".card-header").find(".plus").removeClass("fa-minus").addClass("fa-plus");
+        $(this).prev(".card-header").find(".plus").toggleClass("bar");
+    });
+
+});
+                                  
     // END Accordion Script
+
+    // Data Table
+//     $(document).ready( function () {
+//       $('#tableArea').DataTable();
+//   } );
 </script>

@@ -107,6 +107,7 @@ module.exports = {
 		res.render("dashboard/dashboardlivestock", 
 			{memberStates: memberStates, livestocks: livestocks, 
 				liveStockIndicators: liveStockIndicators,
+				data2: []
 				})
 		} catch (error) {
 			if (error) console.log(`There was an error showing the charts ${error.message}`)
