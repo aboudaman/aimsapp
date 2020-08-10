@@ -13,9 +13,10 @@
 		<div class="uk-card uk-card-hover uk-card-default uk-card-body">
 		<a class="uk-link-reset" href="<%= `/memberstate/${member._id}`%>">
 		    <div class="uk-width-auto">
-			<img class="uk-border-circle uk-text-middle " width="40" height="40" src="<%= `../../public/images/flags/${member.flag}` %>" />
+				<!-- <img class="uk-border-circle uk-text-middle " width="40" height="40" src="<%= `public/images/flags/${member.flag}` %>" /> -->
+				<img class="uk-border-circle uk-text-middle " width="40" height="40" src="/images/flags/<%= member.flag %>" />
 		        <span class="uk-card-title uk-text-middle capital"><%= member.countryName %></span>
-	            </div>
+	        </div>
 		</a>
 		    <p></p>
 			<a href="<%= `/memberstate/${member._id}/editmemberstate` %>"
