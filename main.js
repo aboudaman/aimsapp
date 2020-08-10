@@ -12,6 +12,12 @@ const multer = require("multer")
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
 const connectFlash = require("connect-flash")
+const passport = require("passport")
+// const localStrategy = require("passport-local").Strategy
+const bcrypt = require("bcryptjs")
+//Load User Model to store Livestock Indicator records
+const User = require("./models/user/User")
+const UserModel = User.User
 
 
 //## Middleware for Uploads
@@ -90,6 +96,7 @@ const cropsIndicatorController = require('./controllers/indicatorcontrollers/cro
 const livestockIndicatorController = require('./controllers/indicatorcontrollers/livestock/livestockindicatorcontrollers')
 const animalproductionIndicatorController = require('./controllers/indicatorcontrollers/production/animalproductioncontrollers')
 const dashboardController = require('./controllers/dashboardcontrollers/dashboardcontrollers')
+const userController = require('./controllers/usercontrollers/usercontroller')
 
 //## END Load Controllers ##
 
@@ -101,19 +108,31 @@ router.use(methodOverride("_method", {
 
 //Load modules for Flash Messages
 
-router.use(cookieParser("secret"))
+router.use(cookieParser("secret_passcode"))
 router.use(session({
-	secret: "secret",
+	secret: "secret_passcode",
 	cookie:{
-		maxAge: 60000
+		maxAge: 6000000
 	},
-	resave: false,
-	saveUninitialized: false
+	resave: true,
+	saveUninitialized: true
 }))
+
+// Set up Passport
+router.use(passport.initialize())
+router.use(passport.session())
+passport.use(UserModel.createStrategy());
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
+
+// Set up validator
+
 router.use(connectFlash())
 
 router.use((req,res, next) => {
 	res.locals.flashMessages = req.flash()
+	res.locals.loggedIn = req.isAuthenticated();
+	res.locals.currentUser = req.user
 	next()
 })
 
@@ -184,6 +203,25 @@ router.delete("/memberstate/:id/deletememberstate", memberStateController.delete
 //Set up POST Route to register Member States
 
 // #### END CRUD Routes for Member States
+
+// #### SET up Authentication for application ####
+router.get("/users/createform", userController.createUserForm)
+// router.get("/users", userController.index, userController.indexView);
+router.post("/users/register", userController.saveUser, userController.redirectView)
+
+router.get("/users/loginform", userController.getUserLoginForm)
+router.post("/users/login", userController.authenticate)
+router.get("/users/logout", userController.logout, userController.redirectView)
+
+// app.post('/login',
+//   passport.authenticate('local'),
+//   function(req, res) {
+//     // If this function gets called, authentication was successful.
+//     // `req.user` contains the authenticated user.
+//     res.redirect('/users/' + req.user.username);
+//   });
+
+// #### END Authentication
 
 
 //#### SET up CRUD to Add Livestock Information to the database ####

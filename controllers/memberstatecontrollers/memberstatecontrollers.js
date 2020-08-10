@@ -92,6 +92,7 @@ module.exports = {
 			.then((memberstates) => {
 				console.log(memberstates)
 				res.locals.memberStates = memberstates
+				res.locals.user = req.query.user
 				next()
 				})
 			.catch(error => {
@@ -169,7 +170,7 @@ module.exports = {
 
 	},
 
-	getMemberStateForm:async (req, res) => {
+	getMemberStateForm: async (req, res) => {
 		const livestock = await LiveStockModel.find({})
 		// console.log(livestock)
 

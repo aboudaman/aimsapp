@@ -81,7 +81,7 @@
                                         <% memberState.forEach(member =>  { %>
                                             <div class=" form-check">
                                                 <input type="checkbox" class="form-check-input" name="member.countryName" value=<%= member.countryName %>
-                                                <label class="form-check-label" for= <%= member.countryName %>>  <%= member.countryName %></label>
+                                                <label class="form-check-label capital" for= <%= member.countryName %>>  <%= member.countryName %></label>
                                             </div>
                                         <% }) %>
 
@@ -101,7 +101,7 @@
                                         <% coreCrops.forEach(crop =>  { %>
                                             <div class=" form-check">
                                                 <input type="checkbox" class="form-check-input" name="coreCrop" value=<%= crop %>
-                                                <label class="form-check-label" for= <%= crop %>>  <%= crop %></label>
+                                                <label class="form-check-label capital" for= <%= crop %>>  <%= crop %></label>
                                             </div>
                                         <% }) %>
                                     </div>
@@ -120,7 +120,7 @@
                                         <% cropIndicators.forEach(indicator =>  { %>
                                             <div class=" form-check">
                                                 <input type="checkbox" class="form-check-input" name="cropIndicator" value=<%= indicator %>
-                                                <label class="form-check-label" for= <%= indicator %>>  <%= indicator %></label>
+                                                <label class="form-check-label capital" for= <%= indicator %>>  <%= indicator %></label>
                                             </div>
                                         <% }) %>
                                     </div>

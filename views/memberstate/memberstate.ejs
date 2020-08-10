@@ -7,7 +7,7 @@
 </style>
 
 <div class="container">
-    <h4 style="margin-top: 25px;"> Agricultural Data for <%= memberState.countryName %> </h4>
+    <h4 style="margin-top: 25px; capitalize"> Agricultural Data for <%= memberState.countryName %> </h4>
 
 <div class="row">
     <div class="col-md-6">
@@ -62,8 +62,8 @@
 
         </div>
     </div>
-    <div class="col-md-6">
-        <h4> <%= memberState.countryName %> At a Glance</h4>
+    <div class="col-md-6 capital">
+        <h4 class="capital"> <%= memberState.countryName %> At a Glance</h4>
         <div class="row">
             <div class="col-4">
                 <div class="card">
@@ -91,7 +91,7 @@
                         Currency
                     </div>
                     <div class="card-body">
-                      <h5 class="card-title"><%= memberState.currency %></h5>
+                      <h5 class="card-title capital"><%= memberState.currency %></h5>
                     </div>
                 </div>
             

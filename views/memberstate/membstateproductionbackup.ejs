@@ -175,7 +175,8 @@
     
     //#### Group the canvas ####
     let g = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + ","
+             + margin.top + ")")
     
     
     //## Define Group for X Axis ##
@@ -333,7 +334,8 @@
                 // 		})
     
                 //Enter new elements present in new data onto the screen
-                rectangles.enter()
+                rectangles
+                    .enter()
                     .append("rect")
                     .attr("x", d => {
                         return x(d.name)

@@ -17,7 +17,9 @@
                         box-shadow: 0 5px #666;
                         transform: translateY(4px);
                         }
-
+                        .bar-chart {  
+    background-color: #C7D9D9;  
+}
                     .banner {
                         color: white;
                     }
@@ -87,7 +89,7 @@
                                                                 <div class=" form-check">
                                                                     <input type="checkbox" class="form-check-input" 
                                                                      name="member" value="<%= member %>">
-                                                                    <label class="form-check-label" for= <%= member %>>  <%= member %></label>
+                                                                    <label class="form-check-label capital" for= <%= member %>>  <%= member %></label>
                                                                 </div>
                                                             <% }) %>
                     
@@ -107,7 +109,7 @@
                                                             <% livestocks.forEach(livestock =>  { %>
                                                                 <div class=" form-check">
                                                                     <input type="checkbox" class="form-check-input" name="livestock" value="<%= livestock %>">
-                                                                    <label class="form-check-label" for= <%= livestock %>>  <%= livestock %></label>
+                                                                    <label class="form-check-label capital" for= <%= livestock %>>  <%= livestock %></label>
                                                                 </div>
                                                             <% }) %>
                                                         </div>
@@ -126,7 +128,7 @@
                                                             <% liveStockIndicators.forEach(indicator =>  { %>
                                                                 <div class=" form-check">
                                                                     <input type="checkbox" class="form-check-input" name="indicator" value="<%= indicator %>">
-                                                                    <label class="form-check-label" for= <%= indicator %>>  <%= indicator %></label>
+                                                                    <label class="form-check-label capital" for= <%= indicator %>>  <%= indicator %></label>
                                                                 </div>
                                                             <% }) %>
                                                         </div>
@@ -250,7 +252,17 @@
                                         <div class="tab-content" id="pills-tabContent">
                                             <div class="tab-pane fade show active" id="pills-schart" 
                                             role="tabpanel" aria-labelledby="pills-schart">
-                                                <canvas id="barArea"></canvas>
+                                                <!-- <canvas id="barArea"></canvas> -->
+                                                <!-- <div id="testBar"></div> -->
+                                                <div>
+                                                    <!-- <svg id="testBar" height="600" width="600"></svg> -->
+                                                    <!-- <svg id="testLegend" height="500" width="500"></svg> -->
+                                                </div>
+
+                                                <!-- <div>
+                                                    <svg id="testLegend" height="500" width="500"></svg>
+                                                </div> -->
+                                                
                                             </div>
                                             <div class="tab-pane fade" id="pills-bchart" 
                                                 role="tabpanel" aria-labelledby="pills-bchart-tab">
@@ -273,23 +285,22 @@
                     
                         </div>
                     </div>
+
+
+                    <!-- <div>
+                        <svg id="testBar" height=600 width=450></svg>
+                    </div> -->
+                    <!-- <div id="testLegend"></div> -->
                     <!-- <canvas id="myChart"></canvas> -->
                     <!-- <div id="testChart" style="width: 600px; height: 500px;"></div> -->
                      
 <script>
 // ***********************************************
 
-
-
-// ************************************************
-
-
 function displayLoader() {
     loader.style.display = "block"
 }
 // *************************
-// ****************************
-
 
 // Function to generate a random color
 function getRandomColor() {
@@ -305,145 +316,6 @@ function getRandomColor() {
 
 // const drawTable = (data3) => {
 
-//     // *************************************
-// //     console.log('data 3', data3)
-// // am4core.useTheme(am4themes_animated);
-
-// // Source data
-// // var data = [
-// //   { device: "dev1", date: new Date(2018, 0, 1), value: 450 },
-// //   { device: "dev2", date: new Date(2018, 0, 1), value: 362 },
-// //   { device: "dev3", date: new Date(2018, 0, 1), value: 699 },
-  
-// //   { device: "dev1", date: new Date(2018, 0, 2), value: 269 },
-// //   { device: "dev2", date: new Date(2018, 0, 2), value: 450 },
-// //   { device: "dev3", date: new Date(2018, 0, 2), value: 841 },
-  
-// //   { device: "dev1", date: new Date(2018, 0, 3), value: 700 },
-// //   { device: "dev2", date: new Date(2018, 0, 3), value: 358 },
-// //   { device: "dev3", date: new Date(2018, 0, 3), value: 698 }
-// // ];
-
-// var data = data3
-
-// // Create chart instance
-// var chart = am4core.create("testChart", am4charts.XYChart);
-
-// // Add data
-// // chart.data = data;
-// let tData = []
-
-// // Add data pre-processor
-// // chart.events.on("beforedatavalidated", function(ev) {
-// //   var source = ev.target.data;
-// //   var dates = {};
-// //   var data = [];
-// //   for(var i = 0; i < source.length; i++) {
-// //     var row = source[i];
-// //     if (dates[row.year] == undefined) {
-// //       dates[row.year] = {
-// //         date: row.year
-// //       };
-// //       data.push(dates[row.year]);
-// //     }
-// //     dates[row.year][source[i].livestock] = row.quantity;
-// //   }
-// //   chart.data = data;
-// //   tData.push(data)
-
-// // });
-// const validate = () => {
-//     var source = data;
-//   var dates = {};
-//   var data = [];
-//   for(var i = 0; i < source.length; i++) {
-//     var row = source[i];
-//     if (dates[row.year] == undefined) {
-//       dates[row.year] = {
-//         date: row.year
-//       };
-//       data.push(dates[row.year]);
-//     }
-//     dates[row.year][source[i].livestock] = row.quantity;
-//   }
-//   chart.data = data;
-//   tData.push(data)
-// }
-// validate()
-// // Create axes
-// var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-// dateAxis.renderer.grid.template.location = 0;
-// dateAxis.renderer.minGridDistance = 30;
-
-// var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-// // Create series
-// function createSeries(field, name) {
-//   var series = chart.series.push(new am4charts.LineSeries());
-//   series.dataFields.valueY = field;
-//   series.dataFields.dateX = "date";
-//   series.name = name;
-//   series.tooltipText = "{dateX}: [b]{valueY}[/]";
-//   series.strokeWidth = 2;
-  
-//   var bullet = series.bullets.push(new am4charts.CircleBullet());
-//   bullet.circle.stroke = am4core.color("#fff");
-//   bullet.circle.strokeWidth = 2;
-  
-//   return series;
-// }
-
-// console.log('chart data', tData)
-
-// createSeries("goat", "Goat");
-// createSeries("cattles", "Cattles");
-// createSeries("dev3", "Device #3");
-
-// chart.legend = new am4charts.Legend();
-// chart.cursor = new am4charts.XYCursor();
-
-
-    // *************************************
-
-    // let data = ""
-    // let dateArr = []
-    // let keys = []
-    // let count = 0;
-    // const tempCol = Object.keys(data3)
-    // let t1 = []
-    // let t2 = []
-    // let dates = []
-    // let gui = {
-    //     labels:[],
-    //     datasets: [{
-    //         label: '',
-    //         backgroundColor: 'rgb(255, 99, 132)',
-    //         borderColor: 'rgb(255, 99, 132)',
-    //         data: []
-
-    //     }]
-    // }
-
-    // let tDates = []
-    // let tempData = []
-    // console.log(data3)
-    // // let chart = ""
-    // // const colors = ["red","blue","orange","green", "purple"]
-    // // Bar chart here
-
-    // // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // var ctx = document.getElementById('tableArea').getContext('2d');
-
-    // // data: {
-    // //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    // //     datasets: [{
-    // //         label: 'My First dataset',
-    // //         backgroundColor: 'rgb(255, 99, 132)',
-    // //         borderColor: 'rgb(255, 99, 132)',
-    // //         data: [0, 10, 5, 2, 20, 30, 45]
-    // //     }]
-    // // },
-    // let c=0
     //    for (let i in data3) {
                
     //         let tempDates = []
@@ -493,68 +365,7 @@ function getRandomColor() {
     //                 data: [ele.quantity]
     //             })
     //         })
-    //         c = c + 1
-    //         // t1[count].data = tempData
-
-    //         t2[count].dates = tempDates
-            
-    //         // gui.datasets.push({datasets: tempData})
-    //         // console.log('result in loop',result[i].memberState)
-    //         console.log('count in data 3', count)
-    //         console.log('count C', c)
-            
-    //         // console.log('t2: ', t2)
-    //         // console.log('tempData: ', tempData)
-    //         count = count + 1
-    //         }
-    //     const minDate = tDates.reduce((a,b) => a < b ? a: b)
-    //     const maxDate = tDates.reduce((a,b) => a > b ? a: b)
-    //     console.log('minDate', minDate)
-    //     console.log('maxDate', maxDate)
-
-    //         // t1.forEach(d => console.log(d.data))
-    //         // console.log('GUI', gui)
-    //         // console.log('tDates', tDates)
-    //         console.log('t1 Check in D 3: ', t1)
-
-    //         draw(t1, t2)
-    //         function draw(dataset, dataset2) {
-    //             // console.log('dataset', typeof(t1[0].data))
-    //             // console.log('dataset2', typeof(t2[0].dates))
-    //             // console.log('Object Values', Object.values(t1[0].data))
-    //             let arr = Object.values(t1[0].data)
-    //             let d = []
-    //             // console.log('arr', arr)
-    //             var chart = new Chart(ctx, {
-    //             // The type of chart we want to create
-    //             type: 'bar',
-    //             // The data for our dataset
-    //             // data: gui,
-
-    //             data: {
-    //             // labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'],
-    //             labels: tDates,
-    //             datasets:dataset
-    //             },
-    //             // Configuration options go here
-    //             options: {
-    //     scales: {
-    //         xAxes: [{
-    //             ticks: {
-    //                 min: minDate,
-    //                 max: maxDate
-    //             }
-    //         }]
-    //     }
-    // }
-
-    //             });
-
-    //         }
-
-
-// }
-
+    
 
 // #### END DATA TABLE AREA ####
 
@@ -687,323 +498,353 @@ const lineChart = async (data1JSON, data2JSON) => {
 
             }
 
-        }
-
+}
 
 // ###### END Line Chart Area ######
 // ***********************************************************************************************
 
 // #### Start Bar Chart ####
-const barChart = async (data1JSON, data2JSON) => {
-    let data = ""
-    let dateArr = []
-    let keys = []
-    let count = 0;
-    const tempCol = Object.keys(data1JSON)
-    let t1 = []
-    let t2 = []
-    let dates = []
-    let gui = {
-        labels:[],
-        datasets: [{
-            label: '',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: []
-
-        }]
-    }
-
-    let tDates = []
-
+const barChart = async (data1JSON, data2JSON, data3JSON) => {
     // console.log(data1JSON)
-    // let chart = ""
-    // const colors = ["red","blue","orange","green", "purple"]
-    // Bar chart here
+    // console.log(data2JSON)
+    console.log('data2', data3JSON)
 
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    var ctx = document.getElementById('barArea').getContext('2d');
+// ********* TEST Stacked Bar ****************
+let dataset2 = data3JSON
+    let keys = []
 
-    // data: {
-    //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    //     datasets: [{
-    //         label: 'My First dataset',
-    //         backgroundColor: 'rgb(255, 99, 132)',
-    //         borderColor: 'rgb(255, 99, 132)',
-    //         data: [0, 10, 5, 2, 20, 30, 45]
-    //     }]
-    // },
-    
-       for (let i in data1JSON) {
-                let tempData = []
-                let tempDates = []
-                // console.log('data json', data1JSON)
-            // console.log('result in loop', data1JSON[i][0].memberState)
-            // console.log(result[i])
-
-            // t1.push({
-            //         label: '',
-            //         backgroundColor: getRandomColor(),
-            //         borderColor: 'rgb(255, 99, 132)',
-            //         data:[]
-            //     })
-
-            t2.push({dates:[]})
-
-            
-            let c=0
-            data1JSON[i].forEach((ele, idx) => {
-                
-                // console.log('ele', ele.memberState)
-                // console.log('tempCol[i]', tempCol[count])
-                // console.log(ele.memberState + ' ' + ele.livestock)
-                // t1[label].push('hwllo')
-                // t1.push({label: ele.memberState + ' ' + ele.livestock})
-                // t1.push({backgroundColor: getRandomColor()})
-                t1.push({
-                    label: ele.memberState + ' ' + ele.livestock,
-                    backgroundColor: getRandomColor(),
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: []
-                    // data:[{x: new Date(ele.year).getFullYear(), y: ele.quantity}]
-                })
-
-                // data: [{x:'2016-12-25', y:20}, {x:'2016-12-26', y:10}]
-                // t1[c].data.push(ele.quantity)
-                tempData.push(ele.quantity)
-                tempDates.push(new Date(ele.year).getFullYear())
-                // dates.push(new Date(ele.year).getFullYear())
-                tDates.push(new Date(ele.year).getFullYear())
-                // t1[idx].data.unshift(22)
-                c = c + 1;
-                gui.labels.push(ele.year)
-                gui.datasets.push({
-                    label: 'hello',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [ele.quantity]
-                })
+    for (let ele in dataset2) {
+        dataset2[ele].forEach(d => {
+            // keys[d.memberState] = d.quantity
+            keys.push({
+                [d.memberState] : d.quantity
             })
-
-            t1[count].data = tempData
-
-            t2[count].dates = tempDates
-            
-            // gui.datasets.push({datasets: tempData})
-            // console.log('result in loop',result[i].memberState)
-            // console.log('count', count)
-            
-            // console.log('t2: ', t2)
-            // console.log('tempData: ', tempData)
-            count = count + 1
-            }
-        const minDate = tDates.reduce((a,b) => a < b ? a: b)
-        const maxDate = tDates.reduce((a,b) => a > b ? a: b)
-        // console.log('minDate', minDate)
-        // console.log('maxDate', maxDate)
-
-            // t1.forEach(d => console.log(d.data))
-            // console.log('GUI', gui)
-            // console.log('tDates', tDates)
-            // console.log('t1 Check: ', t1)
-
-            draw(t1, t2)
-            function draw(dataset, dataset2) {
-                // console.log('dataset', typeof(t1[0].data))
-                // console.log('dataset2', typeof(t2[0].dates))
-                // console.log('Object Values', Object.values(t1[0].data))
-                let arr = Object.values(t1[0].data)
-                let d = []
-
-
-                // console.log('arr', arr)
+            // console.log(d)
+        })
 
 
 
-                var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'bar',
-                // The data for our dataset
-                // data: gui,
-
-                data: {
-                // labels: ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020'],
-                labels: tDates,
-                datasets:dataset
-                },
-
-                //     datasets: [{
-                //         label: 'My First dataset',
-                //         backgroundColor: 'rgb(255, 99, 132)',
-                //         borderColor: 'rgb(255, 99, 132)',
-                //         // data: [0, 10, 5, 2, 20, 30, 45],
-                //         data: t1[0].data,
-                //     },
-                //     {
-                //         label: 'My Second dataset',
-                //         backgroundColor: 'blue',
-                //         borderColor: 'rgb(255, 99, 132)',
-                //         data: [1000, 2220, 58880, 20888, 67770, 9000, 10005],
-                //     }
-
-                // ]
-                // },
-
-                // Configuration options go here
-                options: {
-        scales: {
-            xAxes: [{
-                ticks: {
-                    min: minDate,
-                    max: maxDate
-                }
-            }]
-        },                   title: {
-            display: true,
-            text: 'Annual Livestock Report per SADC Member State'
-        }
     }
+    console.log(keys)
+var w = 800,
+                h = 400,
+                padding = 40;
+
+            var dataset = [
+                { apples: 5,  oranges: 10, grapes: 22 },
+                { apples: 4,  oranges: 12, grapes: 28 },
+                { apples: 2,  oranges: 19, grapes: 32 },
+                { apples: 7,  oranges: 23, grapes: 35 },
+                { apples: 23, oranges: 17, grapes: 43 },
+            ];
 
 
 
+            var fruits = Object.keys(dataset[0]);
+            // console.log(fruits)
+            // var fruits = keys;
+            console.log(fruits)
 
+            var colors = d3.scaleOrdinal(d3.schemeCategory10);
+
+            var xScale = d3.scaleBand()
+                .domain(d3.range(dataset.length))
+                .range([padding, w - padding])
+                .paddingInner(0.05);
+
+            var yScale = d3.scaleLinear()
+                .domain([0, d3.max(dataset, function(d) {
+                    var total = 0;
+                    for (var i = 0; i < fruits.length; i++) {
+                        console.log(d[fruits[i]])
+                        total += d[fruits[i]]
+                    }
+                    console.log('total ', total)
+                    return total;
+                })])
+                .range([h - padding, 0]);
+
+            // var yScale = d3.scaleLinear()
+            //           .domain([0, 70000])
+            //           .range([ height, 0])
+            
+            var yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(6);
+
+            var stack = d3.stack()
+                .keys(fruits)
+                .order(d3.stackOrderDescending);
+            
+            var series = stack(dataset);
+            
+            var svg = d3.select('svg')
+                .attr('width', w)
+                .attr('height', h)
+
+            var groups = svg.selectAll('g')
+                .data(series)
+                .enter()
+                .append('g')
+                .style('fill', function(d, i){
+                    return colors(i);
                 });
 
-            }
-
-
-
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  
-    // google.charts.setOnLoadCallback(drawChart.bind(this, data1JSON, data2JSON));
-    // // google.charts.setOnLoadCallback(drawChart);
-    // function drawChart(result, result2) {
-    //     data = new google.visualization.DataTable()
-    //     // console.log(result)
-    //     // console.log('length', result.length)
-    //     const tempCol = Object.keys(result)
-    //     console.log(tempCol)
-    //     let t1 = []
-    //     let t2 = []
-    //     let count = 0;
-
-    //     data.addColumn('date', 'Year')
-    //     for (val of tempCol) {
-    //         data.addColumn('number', val)
-    //     }
-
-    // //     data.addColumn('date', 'Year')
-    // //     data.addColumn('number', 'botswana')
-    // //     // for (let ele of result.data) {
+            var rects = groups.selectAll('rect')
+                .data(function(d){
+                    console.log('d up', d)
+                     return d
+                })
+                .enter()
+                .append('rect')
+                .attr('x', function(d, i){
+                    return xScale(i);
+                })
+                .attr('y', function(d){
+                    console.log('d => ',d)
+                    console.log('d[1]', d[1])
+                    return yScale(d[1]);
+                })
+                .attr('height', function(d) {
+                    return yScale(d[0]) - yScale(d[1]);
+                })
+                .attr('width', xScale.bandwidth());
             
-    // //     // }
+            svg.append('g')
+                .attr('class', 'y axis')
+                .attr('transform', 'translate(' + padding + ', 0)')
+                .call(yAxis);
+
+            var legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('transform', 'translate(' + (padding + 12) + ', 0)');
+
+            legend.selectAll('rect')
+                .data(fruits)
+                .enter()
+                .append('rect')
+                .attr('x', 0)
+                .attr('y', function(d, i){
+                    return i * 18;
+                })
+                .attr('width', 12)
+                .attr('height', 12)
+                .attr('fill', function(d, i){
+                    return colors(i);
+                });
+            
+            legend.selectAll('text')
+                .data(fruits)
+                .enter()
+                .append('text')
+                .text(function(d){
+                    return d;
+                })
+                .attr('x', 18)
+                .attr('y', function(d, i){
+                    return i * 18;
+                })
+                .attr('text-anchor', 'start')
+                .attr('alignment-baseline', 'hanging');
+
+// ************ END Stacked Bar *****************
+
+
+// // set the dimensions and margins of the graph
+// var margin = {top: 10, right: 10, bottom: 50, left: 60},
+//     width = 600 - margin.left - margin.right,
+//     height = 400 - margin.top - margin.bottom;
+
+// // append the svg object to the body of the page
+// var svg = d3.select("#testBar")
+//   .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+
+// // Add Title 
+// svg.append("text")
+//         .attr("x", (width / 2) + 20)             
+//         .attr("y", "20px")
+//         .attr("text-anchor", "middle")  
+//         .style("font-size", "15px") 
+//         .style("fill", "blue")
+//         .style("text-decoration", "none")  
+//         .text("Annual Total Livestock Report Per SADC Member State")
+
+// // ### Group The Canvas ###
+//  let g = svg.append("g")
+//     .attr("transform",
+//           "translate(" + margin.left + "," + margin.top + ")");
+
+// // Parse the Data
+// // d3.json("data2JSON", function(data) {
+//     let data = data2JSON
+
+// // ### Group X Axis - To Add Label ###
+//     let xAxisGroup = g.append("g")
+//                         .attr("class", "bottom axis")
+//                         .attr("transform", "translate(0," + height + ")")
+
+// // ### Group Y Axis - TO Add Label###
+//     let yAxisGroup = g.append("g")
+//                 .attr("class","left axis")
+
     
-    // //     // data.addColumn({ type: 'string', role: 'tooltip' })
-    // //     // data.addColumn({ type: 'string', role: 'annotation' })
-    // //     // data.addColumn({ type: 'string', role: 'style' }
+//     // create a list of keys
+// // var keys = ["Mister A", "Brigitte", "Eleonore", "Another friend", "Batman"]
+//     let keys = []
 
-    // // result2.forEach(elem => {
-    // //     console.log(elem)
-    // //     if ('memberState' in elem) { console.log('YES')}
-    // //     console.log('keys', keys)
-    // //     if (keys.indexOf(elem.memberState)) {
+//     for (let ele of data) {
+//         keys.push(ele.livestock + 
+//             ' ' + ele.memberState + ' '
+//                 + new Date(ele.year).getFullYear())
 
-    // //     }
+//     }
+//         var myColor = d3.scaleOrdinal()
+//                         .domain({data})
+//                         .range(d3.schemeSet1);
 
-    // // })
-    // // data.addRows(6);
-    // //     for (const val of result2) {
-    // //         // console.log(result2[val].quantity)
-    // //         // console.log(val.year)
-    // //         // console.log(val)
+//         var colors = d3.scaleOrdinal(d3.schemeCategory10)     
+        
+//         // Set up stack
+//         var stack = d3.stack()
+//                 .keys(keys)
+//                 .order(d3.stackOrderDescending)
 
-    // //         data.setCell(0, 0, new Date('2012'))
-    // //         data.setCell(0, 1, 200)
-    // //         data.setCell(0, 2, 300)
-            
+//         var series = stack(data)
 
 
-    // //         // data.addRow([
-    // //         //     new Date(val.year),
-    // //         //     val.quantity
 
-    // //         // ])
-    // // //         // data.addRow([new Date(val.year), val.quantity, 
-    // // //         //     'Year: ' + 
-    // // //         //         new Date(val.year).getFullYear() +
-    // // //         //          ', Total: '+ val.quantity, ''
-    // // //         //         //  +getRandomColor()
-                    
-    // // //         //         ]);
 
-    // //         // dateArr.push(val.year)
-    // //     }
-    // //     // for (let el of dateArr) {
-    // //     //     console.log('date array:', el)
-    //     // }
-    //     // const minDate = dateArr.reduce((a,b) => a < b ? a: b)
-    //     // const maxDate = dateArr.reduce((a,b) => a > b ? a: b)
+// // Start Legend
+// const SVG = d3.select("#testBar")
 
-    // //     // console.log('min Date:', minDate, ' ', dateArr.length)
-    // //     // console.log('max Date:', maxDate, ' ', dateArr.length)
-    // // //     let data = []
-    // // //     let header = ['Year', 'Quantity', { role: 'style' }]
-    // // //     data.push(header)
-    // // //     for (const val of result.data) {
-    // // //         let temp = []
-    // // //         temp.push(new Date(val.year).getFullYear())
-    // // //         temp.push(val.quantity)
-    // // //         // temp.push(val.memberState)
-    // // //         temp.push(getRandomColor())
-    // // //         data.push(temp)
-    // // //         // console.log(new Date(val.year).getFullYear())
-    // // //         // console.log(val.quantity)
-    // // //         // console.log(val.memberState)
-    // // //     }
+// let t = d3.transition().duration(1100)
 
-    // // //     let chartData = google.visualization.arrayToDataTable(data)
+// // X axis Scale
+// let x = d3.scaleBand()
+//   .range([ 0, width ])
+//   .domain(data.map(function(d) { return new Date(d.year).getFullYear(); }))
+//   .padding(0.2);
 
-    //     const options = {
-    //         'width': 900,
-    //         'height': 600,
-    //         'hAxis': {
-    //             'title': 'Year',
-    //             'format': 'yyyy',
-    //             //  'ticks': [new Date(minDate), new Date(maxDate)] 
-    //         },          
-    //         'vAxis': {
-    //             'title': 'Quantity'
-    //         // minValue: 0,
-    //         // ticks: [0]
-    //       },
-    //     //   series: [{color: 'blue', visibleInLegend: true}, {color: 'red', visibleInLegend: false}]
-    //       series: {
-    //         0: {
-    //             visibleInLegend: true
-    //         }
-    //       },
-    //       isStacked: true
+// // Y axis Scale
+// var y = d3.scaleLinear()
+//   .domain([0, 70000])
+//   .range([ height, 0])
 
-    //     //   chart: {
-    //     //     title: 'Company Performance',
-    //     //     subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-    //     //   }
-    //     }
+// // svg.append("g")
+// //   .call(d3.axisLeft(y));
 
-    //     // Draw Chart
+// // svg.append("g")
+// //   .attr("transform", "translate(0," + height + ")")
+// //   .call(d3.axisBottom(x))
+// //   .selectAll("text")
+// //     .attr("transform", "translate(-10,0)rotate(-45)")
+// //     .style("text-anchor", "end");
 
-    // //     chart = new google
-    // //     .visualization
-    // //     .ColumnChart(document.getElementById("barArea"))
-    // //   chart.draw(data, options);
+//    // ## Add Label on X Axis ##
+//    let xLabel = g.append("text")
+//         .attr("class", "x-axis label")
+//         .attr("x", width/2)
+//         .attr("y", height+ 45)
+//         .attr("font-size", "13px")
+//         .attr("text-anchor", "middle")
+//         .style("fill", "blue")
+//         .text("Year")
 
-    // }
+//     // ## Add Label on Y Axis ##
+//     let yLabel = g.append("text")
+//         .attr("class", "y-axis label")
+//         .attr("x", -(height / 2))
+//         .attr("y", -40)
+//         .attr("font-size", "13px")
+//         .attr("text-anchor", "middle")
+//         .style("fill", "blue")
+//         .attr("transform", "rotate(-90)")
+//         .text("Annual Total")
+
+//     //## Set up the X Axis Generator ##
+//     let xAxis = d3.axisBottom(x)
+
+//     //## Add group to the X Axis and add Transition ##
+//     xAxisGroup.transition(t)
+//         .call(xAxis)
+//         .selectAll("text")
+//             .attr("text-anchor", "end")
+//             .attr("transform", "rotate(-40)")
+
+//         //## Set up the Y Axis Generator to be located on left side of the canvas ##
+//     let yAxis = d3.axisLeft(y)
+//         .ticks(3)
+//         .tickFormat(d => {
+//             return d
+//         })
+
+//     //## Add Group to the Y axis ##
+//     yAxisGroup.transition(t)
+//         .call(yAxis)
+
+// //   Draw Bar Chart
+//     let rectangles = g.selectAll("rect")
+//     // .data(data, (d) => {return (d.livestock)})
+//         .data(data)
+
+//     rectangles.exit()
+//             .transition(t)
+//                 .attr("y", y(0))
+//                 .attr("height", 0)
+//             .remove()
+
+// rectangles
+//     .enter()
+//     .append("rect")
+//     .attr("x", function(d) { return x(new Date(d.year).getFullYear()); })
+//     .attr("width", x.bandwidth())
+//     .attr("fill", function(d,i){return colors(i)})
+//     .attr("height", function(d) { return height - y(0); }) // always equal to 0
+//     .attr("y", function(d) { return y(0); })
+//     .merge(rectangles)
+    
+// // Bars
+// // svg.selectAll("mybar")
+// //   .data(data)
+// //   .exit()
+// //   .remove()
+// //   .enter()
+// //   .append("rect")
+// //     .attr("x", function(d) { return x(new Date(d.year).getFullYear()); })
+// //     .attr("width", x.bandwidth())
+//     // .attr("fill", function(d,i){return colors(d.quantity)})
+//     // .attr("fill", function(d,i){return colors(i)})
+//     // no bar at the beginning thus:
+//     // .attr("height", function(d) { return height - y(0); }) // always equal to 0
+//     // .attr("y", function(d) { return y(0); })
+
+
+
+
+// // ### Set up Legend
+// var color = d3.scaleOrdinal()
+//   .domain(keys)
+//   .range(d3.schemeSet1);
+
+// var n = data.length/4
+// console.log('data length', data.length)
+// var itemWidth = 50;
+// var itemHeight = 20;
+// // Add one dot in the legend for each name.
+// var size = 20
+
+// // Animation
+// svg.selectAll("rect")
+//   .transition()
+//   .duration(800)
+//   .attr("y", function(d) { return y(d.quantity); })
+//   .attr("height", function(d) { return height - y(d.quantity); })
+//   .delay(function(d,i){console.log(i) ; return(i*100)})
 
 
 }
-
-  
-
 
 // #### END Bar Chart ####
 
@@ -1100,7 +941,7 @@ document.body.addEventListener("submit", async function(event) {
             // console.log(result.data)
             createPieChart(result)
             lineChart(result.data1, result.data2)
-            barChart(result.data1, result.data2)
+            barChart(result.data1, result.data2, result.data3)
             // drawTable(result.data2)
            
             
