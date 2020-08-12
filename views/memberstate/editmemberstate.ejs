@@ -2,14 +2,19 @@
 <div class="row" style="margin-top:55px">
 	<div class="col capital">
 		<h4> Edit A SADC Member State Profile </h4>
-		<form class="uk-form-stacked"  action="<%= `/memberstate/${memberstate._id}/update?_method=PUT` %>" method="POST">
-	
+		<form class="uk-form-stacked"  action="<%= `/memberstate/${memberstate._id}/update?_method=PUT` %>" method="POST" enctype="multipart/form-data">
+
+			<div class="form-group" style="margin-bottom: 55px;">
+				<label for="Country Flag">Upload Flag</label>
+				<input type="file" class="form-control-file" name="flagUpd"  placeholder="Update Member State Flag..." >
+			</div>
 			<div class="uk-margin" style="margin-top: 25px;">
 			<label class="uk-form-label" for="Country Name">Country Name</label>
 			<div class="uk-form-controls">
 				<input class="uk-input" name="countryName" value="<%= memberstate.countryName %>" type="text">
 			</div>
 			</div>
+
 			<div class="uk-margin">
 			<label class="uk-form-label" for="Population">Population</label>
 			<div class="uk-form-controls">
@@ -22,7 +27,7 @@
 				<input class="uk-input" name="area" type="text" value="<%= memberstate.area %>" placeholder="Enter Land Area...">
 			</div>
 			</div>
-	 <div class="uk-margin">
+	 		<div class="uk-margin">
 			<label class="uk-form-label" for="currency">Currency</label>
 			<div class="uk-form-controls">
 				<input class="uk-input" name="currency" type="text" value="<%= memberstate.currency %>" placeholder="Enter Currency...">
@@ -41,6 +46,7 @@
 		</div>
 	    </div>
 	    -->
-	    <input type="submit">
+		<button class="btn btn-primary" type="submit" style="margin-bottom: 25px;">Submit form</button>
+		<button class="btn btn-primary" type="cancel" style="margin-bottom: 25px;">Cancel</button>
 	</form>
 </div>

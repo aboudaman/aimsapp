@@ -27,6 +27,8 @@ const LiveStockModel = LiveStock.LiveStock
 //Load Model to store Livestock Production records
 const LiveStockProductionModel = require("../../models/livestocks/LiveStockProduction")
 
+// Import cloudinary
+const cloudinary = require("cloudinary").v2
 
 
 
@@ -46,43 +48,54 @@ module.exports = {
 	 saveMemberState: async (req, res, next) => {
 		 try {
 
+
 		let newMemberState = new MemberStateModel({
 			countryName: req.body.countryName,
 			population: req.body.population,
-			flag: res.locals.img,
+			// flag: req.body.img,
 			area: req.body.area,
 			currency: req.body.currency
 		})
+		console.log(req.file)
+		console.log(req.file.path)
+		console.log(req.file.public_id)
+		// const img = {}
+		// img.url = req.file.url
+		// img.id = req.file.publice_id
+		newMemberState.flagUrl = req.file.path
+		// newMemberState.imgId = req.file.public_id
+		// a5hvoqitfu1p0ih40iay
+		// flag: res.locals.img
 
+		  // upload image here
 
+		//   cloudinary.uploader.upload(`${imgLoc}/${res.locals.img}`)
+		//   .then((image) => {
+		// 	console.log(image.public_id)
 
+		// 	newMemberState.save()
+
+		//   })
+		//   .catch(e => {
+		// 	  console.log(e)
+
+		//   })
+		
 		// console.log(`The value in the dropdown is ${req.body.selectlivestock}`)
 		// if (!res.locals.img) {
 		// 	console.log("No Flags")
 
 		// }
-		const doc = await newMemberState.save()
+		await newMemberState.save()
 		req.flash("success", "Member State Has Been Added")
 		res.locals.redirect = "/memberstate/new"
 		next()
 		 }
 		 catch(e) {
-			 req.flash("Error", `There was an error ${error.message}`)
+			 req.flash("Error", `There was an error ${e.message}`)
 			console.log(`There was an error ${e.message}`)
 			next()
 		 }
-		//  finally {
-		// res.render("memberstate/success", {success: "success"})
-		//  }
-
-		// newMemberState.save()
-		// 	.then(() => {
-					
-		// 		res.render("memberstate/success", {success: "success"})
-		// 	})
-		// 	.catch(error => {
-		// 		if (error) res.send(error)
-		// 	})
 
 	},
 	index: (req, res, next) => {
@@ -113,7 +126,8 @@ module.exports = {
 			})
 			.catch(error => { if (error) throw error})
 	},
-	update:async (req, res, next) => {
+
+	update: async (req, res, next) => {
 	try {
 		let memberId = req.params.id
 		
@@ -127,6 +141,12 @@ module.exports = {
 			currency: req.body.currency,
 			population: req.body.population,
 		}
+
+		// console.log(req.file)
+		if (req.file.path) {
+			memberParams.flagUrl = req.file.path
+		}
+		
 
 		const findMember = await MemberStateModel.findByIdAndUpdate(memberId,{$set: memberParams})
 		req.flash("success", "Memberstate Has Been Updated!!!")

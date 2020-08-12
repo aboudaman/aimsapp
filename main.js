@@ -60,6 +60,8 @@ mongoose.Promise = global.Promise
 
 //Set up variables
 const app = express()
+const cloudinary = require("cloudinary").v2
+const {CloudinaryStorage} = require("multer-storage-cloudinary")
 
 const layout = require("express-ejs-layouts")
 app.use(express.static("public"))
@@ -82,6 +84,24 @@ app.use(layout)
 app.set("view engine", "ejs")
 app.set("port", process.env.PORT || 3000)
 
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: "dgnv8xicv",
+    api_key: "116213446938249",
+    api_secret: "odFOLhCeUDqwjqbb_QkGwJXSS3o"
+  });
+
+// Set up Cloudinary Transformation
+const storage = new CloudinaryStorage({
+	cloudinary: cloudinary,
+	params: {
+		folder: "flags",
+		allowedFormats:["jpg", "png"],
+	},
+	transformation:[{width:300, height:300, crop: "limit"}]
+
+})
+let parser = multer({storage: storage})
 
 //## Load controllers ##
 const homeController = require('./controllers/homeController')
@@ -142,22 +162,30 @@ router.get("/", homeController.homeController)
 //#### Set up GET Routes for Memberstates ####
 router.get("/memberstates", memberStateController.index, memberStateController.indexView)
 router.get("/memberstate/new", memberStateController.getMemberStateForm)
-router.post("/memberstate/register", uploadMiddleware.single("flag"), async function (req, res, next) {
-	const imagePath = path.join(__dirname, "/public/images/flags")
-	const fileUpload = new Resize(imagePath)
-	const file = req.file
-	if (!file) console.log("Error - No files uploaded")
-	const filename = await fileUpload.save(file.buffer)
-	res.locals.img = filename
-	console.log("uploaded")
-	next()
 
-}, memberStateController.saveMemberState, memberStateController.redirectView)
+// Registration API with uploads image upload API
+router.post("/memberstate/register", parser.single("flag"), memberStateController.saveMemberState, memberStateController.redirectView);
+
+// router.post("/memberstate/register", uploadMiddleware.single("flag"), async function (req, res, next) {
+// 	const imagePath = path.join(__dirname, "/public/images/flags")
+// 	const fileUpload = new Resize(imagePath)
+// 	const file = req.file
+// 	if (!file) console.log("Error - No files uploaded")
+// 	const filename = await fileUpload.save(file.buffer)
+// 	console.log(`Filename: ${filename}`)
+// 	console.log(`Path: ${filename}`)
+// 	res.locals.img = filename
+// 	res.locals.ilocation = file
+// 	console.log("uploaded")
+// 	next()
+
+// }, memberStateController.saveMemberState, memberStateController.redirectView)
+
 router.get("/memberstate/:id", memberStateController.showMemberState, memberStateController.showMemberStateView)
 router.get("/memberstate/:id/editmemberstate", memberStateController.editMemberState)
 
 //Set up update Routes for Memberstates
-router.put("/memberstate/:id/update", memberStateController.update, memberStateController.redirectView)
+router.put("/memberstate/:id/update", parser.single("flagUpd"), memberStateController.update, memberStateController.redirectView)
 
 //Set up Delete Routes for Memberstates
 router.delete("/memberstate/:id/deletememberstate", memberStateController.deleteMemberState, memberStateController.redirectView)

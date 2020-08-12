@@ -21,7 +21,8 @@ const memberStateSchema = new mongoose.Schema({
 		ref: 'LivestockProductionModel'
 	}],
 	flag: String,
-	gdp: String
+	gdp: String,
+	flagUrl: String
 
 })
 
