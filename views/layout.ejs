@@ -208,7 +208,7 @@
 		</div>
 	</div>
 	
-	<div class="container-fluid">
+	<div class="container-fluid" >
 		<!-- <div class="row" id="logoHeader">
 			<div class="col"><img src="/images/sadc_logo1.png" class="float-left stosar-logo" 
 				style="margin-top: 20px;" alt="SADC Logo" ></div>
@@ -218,7 +218,7 @@
 				style="margin-top:20px;" alt="EU Logo"></div>
 		</div> -->
 	
-		<nav class="navbar navbar-expand-lg navbar-light" style="background-color: white; box-shadow: 2px 13px white;">
+		<nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue; box-shadow: 2px 13px white;">
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -266,15 +266,19 @@
 			<% if (!loggedIn) { %>
 				<!-- <span class="account-user-name">SADC HQ</span> -->
 				<span>
-					<a href="/users/loginform">login</a>
+					<!-- <a href="/users/loginform">login</a> -->
+					<a class="btn btn-primary" href="/users/loginform" role="button">login</a>
 				</span>
 			<% } %>
 		</nav> 
 	
 <!--  -->
-	   <hr>
-
+	   <!-- <hr> -->
+	   <div>
 		<%-body%>
+	   </div>
+
+		
 	</div>
 
 
