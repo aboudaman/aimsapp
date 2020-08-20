@@ -1,5 +1,7 @@
 "use strict"
 
+// Load Dependencies
+
 const mongodb = require("mongodb")
 const mongoose = require("mongoose")
 const express = require("express")

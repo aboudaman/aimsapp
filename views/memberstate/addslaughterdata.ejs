@@ -1,6 +1,5 @@
 <div>
-	<h1> Add New Livestock Slaughter Information for <%= memberstate.countryName %> </h1>
-	<%- include("../submenu/submenu") -%>
+	<h3> Add New Livestock Slaughter Information for <%= memberstate.countryName %> </h3>
 
 	<form class="uk-form-stacked" action="<%= `/production/${memberstate._id}/animalslaughtered/register` %>" method="post">
 		<div class="uk-margin">

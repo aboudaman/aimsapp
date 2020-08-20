@@ -217,60 +217,276 @@
 			<div class="col"><img src="/images/eu_logo.png" class="float-right stosar-logo" 
 				style="margin-top:20px;" alt="EU Logo"></div>
 		</div> -->
-	
-		<nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue; box-shadow: 2px 13px white;">
+		<% if (loggedIn) { %>
+			<nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue; box-shadow: 2px 13px white;">
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-			</button>
-			<a class="navbar-brand" href="#"><h3> SADC AIMS </h3></a>
-		
-			<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item">
-				<a class="nav-link" href="#">Project Background <span class="sr-only">(current)</span></a>
-				</li>
-				
-				<li class="nav-item">
-				<a class="nav-link" href="/memberstates">SADC Member States</a>
-				</li>
-				<% if (loggedIn) { %>
-					<% if (currentUser.role === 'user') { %>
-						<li class="nav-item">
-						<a class="nav-link" href="/memberstate/new">Add Member States</a>
-						</li>
-					<% } %>
-				<% } %>
-				<li class="nav-item">
-					<a class="nav-link" href="#">News and Events</a>
-				</li>
-				<!-- <li class="nav-item dropdown">
-					<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span uk-icon="settings"></span>
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#">Manage AIMS Database</a>
-					<a class="dropdown-item" href="/livestock/new">Add Livestock To Database</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Something else here</a>
-					</div>
-				</li> -->
-
-			</ul>
-			<!-- <form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form> -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+				</button>
+				<a class="navbar-brand" href="#"><h3> SADC AIMS </h3></a>
 			
-			</div>
-			<% if (!loggedIn) { %>
-				<!-- <span class="account-user-name">SADC HQ</span> -->
-				<span>
-					<!-- <a href="/users/loginform">login</a> -->
-					<a class="btn btn-primary" href="/users/loginform" role="button">login</a>
-				</span>
-			<% } %>
-		</nav> 
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+					<a class="nav-link" href="#">Project Background <span class="sr-only">(current)</span></a>
+					</li>
+					
+					<li class="nav-item">
+					<a class="nav-link" href="/memberstates">SADC Member States</a>
+					</li>
+					<% if (loggedIn) { %>
+						<% if (currentUser.role === 'user') { %>
+							<li class="nav-item">
+							<a class="nav-link" href="/memberstate/new">Add Member States</a>
+							</li>
+						<% } %>
+					<% } %>
+					<li class="nav-item">
+						<a class="nav-link" href="#">News and Events</a>
+					</li>
+					<!-- <li class="nav-item dropdown">
+						<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span uk-icon="settings"></span>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="#">Manage AIMS Database</a>
+						<a class="dropdown-item" href="/livestock/new">Add Livestock To Database</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li> -->
+	
+				</ul>
+				<!-- <form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form> -->
+				
+				</div>
+				<% if (currentUser.role == 'administrator') { %>
+
+					<div class="collapse navbar-collapse justify-content-end" id="navbarText">
+						<ul class="navbar-nav">
+							<!-- <li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<i style="font-size: 25px; color: white" class="dripicons-gear noti-icon"></i>
+								</a>
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+								<a class="dropdown-item" href="/users/createform" >Register Users</a>
+								<a class="dropdown-item" href="#" >Manage Users</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="/livestock/new" >Manage Livestock Database</a>
+								<a class="dropdown-item" href="/crop/new">Manage Core Crops Database</a> -->
+								<!-- <a class="dropdown-item" href="#">Something else here</a> -->
+								<!-- <div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="/dashboard">Analytics and Reporting</a>
+								</div>
+							</li> -->
+
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<img src="/assets/images/flags/england.png" alt="English Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">English</span> </a>
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+									<a class="dropdown-item" href="#"><img src="/assets/images/flags/french.jpg" alt="French Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">French</span> 
+									</a>
+		
+									<a class="dropdown-item" href="#">
+										<img src="/assets/images/flags/portugal.png" alt="Portugal Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">Portuguese</span> </a>
+									</a>
+		
+								</div>
+							</li>
+							<!-- login/logout -->
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<span class="account-user-avatar">
+										<img src="/assets/images/users/placeholder.png" alt="user-image" style="width:45px;height:42px;" class="rounded-circle">
+									</span>
+										<span class="align-middle">Logged In As <%= currentUser.email %></span> 
+								</a>
+
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+									<a class="dropdown-item" href="/users/createform" >Register Users</a>
+									<a class="dropdown-item" href="#" >Manage Users</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="/livestock/new" >Manage Livestock Database</a>
+									<a class="dropdown-item" href="/crop/new">Manage Core Crops Database</a>
+									<!-- <a class="dropdown-item" href="#">Something else here</a> -->
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="/dashboard">Analytics and Reporting</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="/users/logout">Logout</a>
+
+									<!-- <a class="dropdown-item" href="#">
+										<img src="/assets/images/flags/portugal.png" alt="Portugal Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">Portuguese</span> </a>
+									</a> -->
+
+								</div>
+							</li>
+							<!-- <li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<span class="account-user-avatar">
+										<img src="/assets/images/users/placeholder.png" alt="user-image" style="width:45px;height:42px;" class="rounded-circle">
+									</span> -->
+										<!-- <span class="account-user-name">SADC HQ</span> -->
+										<!-- <span class="account-position" style="color: white;">Logged in as <%= currentUser.email %>
+										</span>
+										<span class="account-position"> <a href="/users/logout">Logout</a>
+										</span> -->
+									<!-- <span style="color: white;"> -->
+											<!-- <span class="account-user-name">SADC HQ</span> -->
+											<!-- <span class="account-position">Looged in as 
+											</span>
+											<span> -->
+												<!-- login -->
+											<!-- </span>
+									</span> -->
+								
+								<!-- </a> -->
+								<!-- <div class="dropdown-menu" style="background-color: #f6f2ea;">
+								<a class="dropdown-item" href="#">Manage Users</a>
+								<a class="dropdown-item" href="/indicator/new">Manage Indicators</a>
+								<a class="dropdown-item" href="/memberstates">Manage Member States</a>
+								</div> -->
+							<!-- </li> -->
+		
+						</ul>
+					</div>
+				<% } else if (currentUser.role == 'user') { %>
+					<div class="collapse navbar-collapse justify-content-end" id="navbarText">
+						<ul class="navbar-nav">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+									<i style="font-size: 25px; color: white" class="dripicons-gear noti-icon"></i>
+								</a>
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+								<!-- <a class="dropdown-item" href="/livestock/new" >Manage Livestock Database</a>
+								<a class="dropdown-item" href="/crop/new">Manage Core Crops Database</a> -->
+								<!-- <a class="dropdown-item" href="#">Something else here</a> -->
+								<!-- <div class="dropdown-divider"></div> -->
+								<a class="dropdown-item" href="/dashboard">Analytics and Reporting</a>
+								</div>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<img src="/assets/images/flags/england.png" alt="English Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">English</span> </a>
+		
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+									<a class="dropdown-item" href="#"><img src="/assets/images/flags/french.jpg" alt="French Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">French</span> 
+									</a>
+		
+									<a class="dropdown-item" href="#">
+										<img src="/assets/images/flags/portugal.png" alt="Portugal Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">Portuguese</span> </a>
+									</a>
+		
+								</div>
+							</li>
+							<!-- login/logout -->
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" style="color: white;" data-toggle="dropdown" 
+									href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<span class="account-user-avatar">
+											<img src="/assets/images/users/placeholder.png" alt="user-image" style="width:45px;height:42px;" class="rounded-circle">
+										</span>
+										<span class="align-middle">Logged In As <%= currentUser.email %></span> 
+		
+								<div class="dropdown-menu" style="background-color: #f6f2ea;">
+									<a class="dropdown-item" href="/dashboard">Analytics and Reporting</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="/users/logout">Logout</a>		
+									<!-- <a class="dropdown-item" href="#">
+										<img src="/assets/images/flags/portugal.png" alt="Portugal Flag" class="mr-1" style="width:64px;height:42px;"> 
+										<span class="align-middle">Portuguese</span> </a>
+									</a> -->
+		
+								</div>
+							</li>
+		
+		
+						</ul>
+					</div>
+
+				<% } %>
+				<% if (!loggedIn) { %>
+					<!-- <span class="account-user-name">SADC HQ</span> -->
+					<span>
+						<!-- <a href="/users/loginform">login</a> -->
+						<a class="btn btn-primary" href="/users/loginform" role="button">login</a>
+					</span>
+				<% } %>
+			</nav> 
+
+		<% } else { %>
+			<nav class="navbar navbar-expand-lg navbar-light" style="background-color: lightblue; box-shadow: 2px 13px white;">
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+				</button>
+				<a class="navbar-brand" href="#"><h3> SADC AIMS </h3></a>
+			
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+					<a class="nav-link" href="#">Project Background <span class="sr-only">(current)</span></a>
+					</li>
+					
+					<li class="nav-item">
+					<a class="nav-link" href="/memberstates">SADC Member States</a>
+					</li>
+					<% if (loggedIn) { %>
+						<% if (currentUser.role === 'user') { %>
+							<li class="nav-item">
+							<a class="nav-link" href="/memberstate/new">Add Member States</a>
+							</li>
+						<% } %>
+					<% } %>
+					<li class="nav-item">
+						<a class="nav-link" href="#">News and Events</a>
+					</li>
+					<!-- <li class="nav-item dropdown">
+						<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span uk-icon="settings"></span>
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="#">Manage AIMS Database</a>
+						<a class="dropdown-item" href="/livestock/new">Add Livestock To Database</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Something else here</a>
+						</div>
+					</li> -->
+	
+				</ul>
+				<!-- <form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form> -->
+				
+				</div>
+				<% if (!loggedIn) { %>
+					<!-- <span class="account-user-name">SADC HQ</span> -->
+					<span>
+						<!-- <a href="/users/loginform">login</a> -->
+						<a class="btn btn-primary" href="/users/loginform" role="button">login</a>
+					</span>
+				<% } %>
+			</nav> 
+
+		<% } %>
+	
+
 	
 <!--  -->
 	   <!-- <hr> -->
